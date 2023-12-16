@@ -1,6 +1,6 @@
 // Recompesas.tsx
 import React from 'react';
-import { View, Text,Image,StyleSheet } from 'react-native';
+import { View, Text,Image,StyleSheet,ScrollView } from 'react-native';
 import { RecompensasProps } from '../Types/types';
 import CajaObjetivo from '../Componentes/CajaObjetivo';
 
@@ -14,12 +14,15 @@ const Recompesas: React.FC<any> = ({ navigation }:RecompensasProps) => {
               source={{uri:"https://cdn-icons-png.flaticon.com/512/3299/3299954.png"}}/>
         <Text style={styles.texto}>Avatar eco-amigable</Text>
       </View>
-       <View>
-        <Text style={styles.titulo}>Objetivos</Text>
+      <Text style={styles.titulo}>Objetivos</Text>
+       <ScrollView>
+        
+        <CajaObjetivo titulo='Recicla en 3 lugares diferentes esta semana' recompesa='150' porcentaje={10}/>
+        <CajaObjetivo titulo='Recicla en 3 lugares diferentes esta semana' recompesa='150' porcentaje={10}/>
         <CajaObjetivo titulo='Recicla en 3 lugares diferentes esta semana' recompesa='150' porcentaje={10}/>
         <CajaObjetivo titulo='Recicla en 3 lugares diferentes esta semana' recompesa='150' porcentaje={10}/>
 
-      </View>
+      </ScrollView>
       
     </View>
   );

@@ -1,10 +1,17 @@
 // Principal.tsx
 import React from 'react';
-import { View, Image, StyleSheet, Text, TextInput} from 'react-native';
+import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
 import MapView from 'react-native-maps';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../Types/types';
+type PrincipalProps = {
+  navigation: StackNavigationProp<RootStackParamList, 'principal'>; 
+};
 
 
-export default function Principal() {
+
+export default function Principal({navigation}:PrincipalProps) {
   return (
     <View style={styles.container}>
       <View style={styles.principal1}>
@@ -12,11 +19,14 @@ export default function Principal() {
           <Text style={styles.titulo}>Bienvenido!</Text>
           <TextInput style={styles.input} placeholder='Ubicacion Actual' />
         </View>
-
-        <Image
+        <TouchableOpacity onPress={()=>navigation.navigate('perfil')}>
+          <Image
           style={styles.imagen}
           source={{ uri: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg' }}
-        />
+          
+          />
+        </TouchableOpacity>
+        
       </View>
       <View style={styles.principal2}>
         <MapView

@@ -7,6 +7,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Principal from './Pages/Principal';
 import BarraInferior from './Componentes/BarraInferior';
+import Perfil from './Pages/Perfil';
+
+
 
 const Stack = createStackNavigator();
 
@@ -62,6 +65,12 @@ const CargaInicial: React.FC<{ navigation: any }> = ({ navigation }) => {
           name="principal"
           component={BarraInferior}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="perfil"
+          component={Perfil}
+          options={{headerShown:false}}
+        
         />
       </Stack.Navigator>
     </NavigationContainer>

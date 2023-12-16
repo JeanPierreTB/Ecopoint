@@ -10,6 +10,7 @@ export type RootStackParamList = {
     Recompensas: undefined;
     Comunidad: undefined;
     Recorrido: undefined;
+    perfil:undefined;
   };
 
 

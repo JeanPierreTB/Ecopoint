@@ -17,18 +17,12 @@ function CajaObjetivo({titulo,recompesa,porcentaje}:Objetivo) {
         </View>
         <Text>Nivel de progreso</Text>
         <Text>Recompesa al completar:{recompesa} puntos</Text>
-        <View style={styles.prueba}></View>
+        
     </View>
   )
 }
 
 const styles=StyleSheet.create({
-    prueba:{
-        width:100,
-        height:20,
-        backgroundColor:'green',
-        
-    },
     circulo:{
         width:100,
         height:100,
