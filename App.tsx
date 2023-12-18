@@ -8,6 +8,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Principal from './Pages/Principal';
 import BarraInferior from './Componentes/BarraInferior';
 import Perfil from './Pages/Perfil';
+import Cuenta from './Pages/Cuenta';
+import Soporte from './Pages/Soporte';
+import PFrecuentes from './Pages/PFrecuentes';
+import Ecomentarios from './Pages/Ecomentarios';
 
 
 
@@ -72,7 +76,58 @@ const CargaInicial: React.FC<{ navigation: any }> = ({ navigation }) => {
           options={{headerShown:false}}
         
         />
+        <Stack.Screen
+          name="cuenta"
+          component={Cuenta}
+          options={{
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'rgba(0,0,0,0)',
+              borderBottomWidth: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="soporte"
+          component={Soporte}
+          options={{
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'rgba(0,0,0,0)',
+              borderBottomWidth: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="pregunta"
+          component={PFrecuentes}
+          options={{
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'rgba(0,0,0,0)',
+              borderBottomWidth: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="enviar"
+          component={Ecomentarios}
+          options={{
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'rgba(0,0,0,0)',
+              borderBottomWidth: 0,
+            },
+          }}
+        />
+
+
+
       </Stack.Navigator>
+
     </NavigationContainer>
   );
 };

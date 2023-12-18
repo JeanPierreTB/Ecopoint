@@ -3,9 +3,15 @@ import { View,Image, StyleSheet,Text, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Cajaestadistica from '../Componentes/Cajaestadistica'
 import BarraInferior from '../Componentes/BarraInferior'
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../Types/types';
+
+type PerfilProps = {
+    navigation: StackNavigationProp<RootStackParamList, 'perfil'>; 
+  };
 
 
-function Perfil() {
+function Perfil({navigation}:PerfilProps) {
   return (
     <View style={styles.container}>
         <Image
@@ -45,15 +51,15 @@ function Perfil() {
 
         <View style={styles.texic}>
             <Icon name="cog" size={30} color="black" />
-            <Text>Configuracion</Text>
+            <Text onPress={()=>navigation.navigate('cuenta')}>Configuracion</Text>
         </View>
         <View style={styles.texic}>
             <Icon name="life-ring" size={30} color="black" />
-            <Text>Soporte</Text>
+            <Text onPress={()=>navigation.navigate('soporte')}>Soporte</Text>
         </View>
         <View style={styles.texic}>
             <Icon name="sign-out" size={30} color="red" />
-            <Text>Cerrar sesion</Text>
+            <Text onPress={()=>navigation.navigate('sesion')}>Cerrar sesion</Text>
         </View>
 
         

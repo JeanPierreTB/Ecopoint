@@ -11,6 +11,10 @@ export type RootStackParamList = {
     Comunidad: undefined;
     Recorrido: undefined;
     perfil:undefined;
+    cuenta:undefined;
+    soporte:undefined;
+    pregunta:undefined;
+    enviar:undefined;
   };
 
 
