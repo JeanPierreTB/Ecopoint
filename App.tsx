@@ -12,6 +12,7 @@ import Cuenta from './Pages/Cuenta';
 import Soporte from './Pages/Soporte';
 import PFrecuentes from './Pages/PFrecuentes';
 import Ecomentarios from './Pages/Ecomentarios';
+import OContraseña from './Pages/OContraseña';
 
 
 
@@ -115,6 +116,18 @@ const CargaInicial: React.FC<{ navigation: any }> = ({ navigation }) => {
         <Stack.Screen
           name="enviar"
           component={Ecomentarios}
+          options={{
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'rgba(0,0,0,0)',
+              borderBottomWidth: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="ocontra"
+          component={OContraseña}
           options={{
             headerTitle: '',
             headerStyle: {

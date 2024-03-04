@@ -15,6 +15,7 @@ export type RootStackParamList = {
     soporte:undefined;
     pregunta:undefined;
     enviar:undefined;
+    ocontra:undefined;
   };
 
 

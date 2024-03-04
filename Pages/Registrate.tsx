@@ -1,38 +1,66 @@
-import React from 'react'
-import { TouchableOpacity,Text,StyleSheet,View,Image,TextInput} from 'react-native'
+import React, { useState } from 'react'
+import { TouchableOpacity,Text,StyleSheet,View,Image,TextInput,Alert} from 'react-native'
 import facebook from '../assets/facebook.png'
 import google from '../assets/google.png'
 import ios from '../assets/ios.png'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../Types/types';
+import Usuario from '../Clases/Usuario'
 
 type RegistrateProps = {
     navigation: StackNavigationProp<RootStackParamList, 'registrarte'>;
 };
 
 export default function Registrate({ navigation }: RegistrateProps) {
+
+  const [DNI,setDNI]=useState('');
+  const [Correo,setCorreo]=useState('');
+  const [Contra,setContra]=useState('');
+  const [NTelefono,setNTelefono]=useState('');
+
+
+  const handleclik=()=>{
+    const campos=[DNI,Correo,Contra,NTelefono];
+    if(campos.some(campo=>!campo)){
+        Alert.alert('Error',"Completa los campos")
+    }
+    
+    else{
+        const usuario=new Usuario(Correo,Contra,parseInt(DNI),parseInt(NTelefono));
+        usuario.register(navigation);
+    
+        setDNI('');
+        setCorreo('');
+        setContra('');
+        setNTelefono('');
+    }
+    
+
+  }
+
+
   return (
     <View style={styles.container}>
         <Text style={styles.titulo}>Registrarse</Text>
         <View style={styles.registrate1}>
             <View>
                 <Text style={styles.textoboton}>DNI</Text>
-                <TextInput style={styles.boton} keyboardType="numeric"/>
+                <TextInput style={styles.boton} keyboardType="numeric" value={DNI} onChange={(e)=>setDNI(e.nativeEvent.text)}/>
             </View>
             <View>
                 <Text style={styles.textoboton}>Correo Electronico</Text>
-                <TextInput style={styles.boton} keyboardType="email-address"/>
+                <TextInput style={styles.boton} keyboardType="email-address" value={Correo} onChange={(e)=>setCorreo(e.nativeEvent.text)}/>
             </View>
             <View>
                 <Text style={styles.textoboton}>Contraseña</Text>
-                <TextInput style={styles.boton}/>
+                <TextInput style={styles.boton} value={Contra} onChange={(e)=>setContra(e.nativeEvent.text)}/>
             </View>
             <View>
                 <Text style={styles.textoboton}>Numero de telefono</Text>
-                <TextInput style={styles.boton} keyboardType="numeric"/>
+                <TextInput style={styles.boton} keyboardType="numeric" value={NTelefono} onChange={(e)=>setNTelefono(e.nativeEvent.text)}/>
             </View>
         </View>
-        <TouchableOpacity style={styles.botonentrada}>
+        <TouchableOpacity style={styles.botonentrada} onPress={()=>handleclik()}>
             <Text style={styles.textoentrada}>REGISTRARSE</Text>
         </TouchableOpacity>
 
@@ -54,7 +82,7 @@ export default function Registrate({ navigation }: RegistrateProps) {
 
         </View>
         
-        <Text style={styles.textoinicio}>¿Ya tienes una cuenta? <Text onPress={()=>navigation.navigate('sesion')}>Iniciar sesion</Text></Text>
+        <Text style={styles.textoinicio}>¿Ya tienes una cuenta? <Text style={styles.negrita} onPress={()=>navigation.navigate('sesion')}>Iniciar sesion</Text></Text>
     </View>
   )
 }
@@ -124,6 +152,9 @@ const styles=StyleSheet.create({
         margin:5,
         flexDirection:'row',
         gap:20
+    },
+    negrita:{
+        fontWeight:"bold"
     }
 
 
