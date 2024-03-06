@@ -53,7 +53,7 @@ function BarraInferior() {
         }}
       />
       <Tab.Screen
-        name="Recorrido"
+        name="Transaccion"
         component={Recorrido}
         options={{
           tabBarIcon: ({ color, size }) => (

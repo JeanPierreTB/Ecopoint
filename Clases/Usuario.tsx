@@ -1,5 +1,7 @@
 import { URL } from "../URL/URL";
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 class Usuario{
@@ -15,28 +17,40 @@ class Usuario{
         this.ntelefono=ntelefono;
     }
 
-    async islogin(navigation:any):Promise<void>{
-        await fetch("http://192.168.0.179:3001/verificar-usuario", {
+    async islogin(navigation: any): Promise<void> {
+        try {
+          const response = await fetch("http://192.168.0.179:3001/verificar-usuario", {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            nombre: this.nombre,
-            contrasena: this.contraseña,
-        }),
-        })
-      .then(response => response.json())
-      .then(data => {
-        if(data.res)
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              nombre: this.nombre,
+              contrasena: this.contraseña,
+            }),
+          });
+      
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+      
+          if (data.res) {
+            // Almacena información de sesión segura en AsyncStorage
+            const userData = { nombre: this.nombre,contraseña:this.contraseña };
+            AsyncStorage.setItem('usuario', JSON.stringify(userData));
             navigation.navigate('principal');
-        
-        else
-            Alert.alert('Error',data.mensaje);
-        
-        
-      })
-      .catch(error => console.error('Error:', error))}
+          } else {
+            Alert.alert('Error', data.mensaje);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          // Manejo de errores
+          Alert.alert('Error', 'Ocurrió un error al procesar la solicitud.');
+        }
+      }
+      
 
 
     async changepassword(contranueva:string,navigation:any):Promise<void>{

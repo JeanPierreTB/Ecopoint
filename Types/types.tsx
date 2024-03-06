@@ -16,6 +16,7 @@ export type RootStackParamList = {
     pregunta:undefined;
     enviar:undefined;
     ocontra:undefined;
+    Preciclaje:undefined
   };
 
 
