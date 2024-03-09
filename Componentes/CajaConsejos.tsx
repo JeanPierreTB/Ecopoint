@@ -1,18 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View,Image,Text,StyleSheet} from 'react-native'
 
 interface Consejos{
     url:string,
-    des:string
+    des:string,
+    id:number
 }
 
-export default function CajaConsejos({url,des}:Consejos) {
+export default function CajaConsejos({url,des,id}:Consejos) {
+
   return (
     <View style={styles.container}>
-        <Image
+
+        { id % 2 === 0 ? (
+        <>
+            <Image
             style={styles.imagen}
-            source={{uri:url}} />
-        <Text style={styles.texto}>{des}</Text>
+            source={{ uri: url }}
+            />
+            <Text style={styles.texto}>{des}</Text>
+        </>
+        ) : (
+        <>
+            <Text style={styles.texto}>{des}</Text>
+            <Image
+            style={styles.imagen}
+            source={{ uri: url }}
+            />
+        </>
+        )}
+
+        
     </View>
 )    
 }
@@ -22,7 +40,9 @@ const styles=StyleSheet.create({
         marginTop:20,
         flex:1,
         flexDirection:'row',
-        gap:20
+        gap:20,
+        alignItems:'center',
+        marginLeft:10
     },
     imagen:{
         marginLeft:5,
@@ -31,8 +51,8 @@ const styles=StyleSheet.create({
         borderRadius:20
     },
     texto:{
-        width:'70%',
-        fontSize:20
+        width:'60%',
+        fontSize:12
     }
 })
 

@@ -1,20 +1,46 @@
 // Consejos.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text,StyleSheet} from 'react-native';
 import { ConsejosProps } from '../Types/types';
 import CajaConsejos from '../Componentes/CajaConsejos';
+import Consejoclase from '../Clases/Consejos';
+
+
+const imagenes=[
+  'https://cdn-icons-png.flaticon.com/512/9494/9494567.png',
+  'https://cdn-icons-png.flaticon.com/512/9494/9494600.png',
+  'https://cdn-icons-png.flaticon.com/512/9494/9494620.png',
+  'https://cdn-icons-png.flaticon.com/512/9494/9494623.png',
+  'https://cdn-icons-png.flaticon.com/512/9494/9494626.png'
+
+]
 
 
 const Consejos: React.FC<any> = ({ navigation}:ConsejosProps) => {
+
+  const[consejoshoy,setconsejoshoy]=useState<any[]>([]);
+
+  useEffect(()=>{
+    mostrarconsejo();
+   // console.log(imagenes[0])
+  },[])
+
+  async function mostrarconsejo(){
+    try{
+      const todosconsejos=await Consejoclase.recuperarconsejos();
+      setconsejoshoy(todosconsejos)
+    }catch(e){
+      console.log('Ocurrio un error',e)
+    }
+  }
   return (
     <View style={styles.container}>
-      <Text style={styles.texto}>Consejos destacados</Text>
-        <CajaConsejos url="https://graffica.info/wp-content/uploads/2017/02/logoreciclaje-icono.jpg" des="Es un proceso en cual se puede obtener beneficios ambientales"/>
-        <CajaConsejos url="https://graffica.info/wp-content/uploads/2017/02/logoreciclaje-icono.jpg" des="Es un proceso en cual se puede obtener beneficios ambientales"/>
-        <CajaConsejos url="https://graffica.info/wp-content/uploads/2017/02/logoreciclaje-icono.jpg" des="Es un proceso en cual se puede obtener beneficios ambientales"/>
-        <CajaConsejos url="https://graffica.info/wp-content/uploads/2017/02/logoreciclaje-icono.jpg" des="Es un proceso en cual se puede obtener beneficios ambientales"/>
+      <Text style={styles.texto}>Consejos de hoy</Text>
+        {consejoshoy.map((consejo,index)=>(
+          <CajaConsejos id={consejo.id} key={consejo.id} url={imagenes[index]} des={consejo.des}/>
+        ))}
 
-        
+
     </View>
   );
 }
