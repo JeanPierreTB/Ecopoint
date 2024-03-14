@@ -7,12 +7,13 @@ interface Comunidad{
     nombre:string,
     foto:string,
     com:string,
-    likes:string,
+    tipo:number,
 }
 
-function CajaComunidad({nombre,foto,com,likes}:Comunidad) {
+function CajaComunidad({nombre,foto,com,tipo}:Comunidad) {
   return (
-    <View style={styles.container}>
+
+    <View style={[styles.container ,tipo===1? styles.rojo:tipo===2? styles.gris:styles.verde]}>
         <Text>{nombre}</Text>
         <View style={styles.caja}>
             <Image
@@ -21,14 +22,7 @@ function CajaComunidad({nombre,foto,com,likes}:Comunidad) {
             />
             <Text style={styles.texto}>{com}</Text>
         </View>
-        <View style={styles.likes}>
-            <View style={styles.dislikes}>
-                <Icon name="thumbs-up" size={20} color="black"/>
-                <Text>{likes}</Text>
-                <Icon name="thumbs-down" size={20} color="red" />
-            </View>
-            <Icon name="comment" size={20} color="green" />
-        </View>
+        
     </View>
   )
 }
@@ -42,10 +36,20 @@ const styles=StyleSheet.create({
         padding:10,
         
     },
+    rojo:{
+        backgroundColor:'red'
+    },
+    verde:{
+        backgroundColor:'green'
+    },
+    gris:{
+        backgroundColor:'grey'
+    },
     caja:{
         flexDirection:'row',
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        height:'80%'
     },
     imagen:{
         width:50,
@@ -58,15 +62,7 @@ const styles=StyleSheet.create({
         height:60,
         textAlignVertical:'center'
         
-    },
-    likes:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-    },
-    dislikes:{
-        flexDirection:'row',
-        gap:10,
-
+        
     }
 })
 
