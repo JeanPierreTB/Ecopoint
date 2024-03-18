@@ -3,6 +3,8 @@ import { View, StyleSheet, Text, TouchableOpacity, TextInput } from 'react-nativ
 import { Picker } from '@react-native-picker/picker';
 import { RecorridoProps } from '../Types/types';
 import PuntodeReciclaje from '../Clases/PuntodeReciclaje';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 const Recorrido: React.FC<any> = ({ navigation }: RecorridoProps) => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -31,7 +33,9 @@ const Recorrido: React.FC<any> = ({ navigation }: RecorridoProps) => {
   const handlereclamar = async () => {
     try {
       console.log(selectedOption);
-      const data = await PuntodeReciclaje.puntorealizado(selectedOption);
+      const usuario = await AsyncStorage.getItem('usuario');
+        const usuarioObjeto = usuario? JSON.parse(usuario):null;
+      const data = await PuntodeReciclaje.puntorealizado(selectedOption,usuarioObjeto.nombre,usuarioObjeto.contraseña);
       if (data) {
         const nuevaLista = transacciones?.filter(transaccion => transaccion.id !== data.punto?.id);
         setTransacciones(nuevaLista || []);

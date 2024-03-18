@@ -79,6 +79,7 @@ class Usuario{
     }
 
     async register(navigation:any):Promise<void>{
+        console.log(this.ntelefono);
         await fetch("http://192.168.0.179:3001/insertar-usuario", {
             method: 'POST',
             headers: {
@@ -105,6 +106,66 @@ class Usuario{
         
         
     }
+
+    static async datosusuario(nombre:string,contrasena:string):Promise<any>{
+      try{
+        const response = await fetch("http://192.168.0.179:3001/obtener-usuario", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nombre:nombre,
+                    contraseña:contrasena
+                }),
+            });
+         const data=await response.json();
+         
+         return data.usuario
+          
+      }catch(e){
+        console.error("Ocurrio un error",e)
+      }
+    }
+
+    static async datosinformativos(nombre:string,contrasena:string):Promise<any>{
+      try{
+        const response = await fetch("http://192.168.0.179:3001/notas-usuario", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nombre:nombre,
+                    contraseña:contrasena
+                }),
+            });
+         const data=await response.json();
+         
+         return data
+          
+      }catch(e){
+        console.error("Ocurrio un error",e)
+      }
+    }
+
+    static async actualizarfoto(nombre:string,contrasena:string,foto:string):Promise<any>{
+      const response=await fetch("http://192.168.0.179:3001/actualizar-foto", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            nombre:nombre,
+            contraseña:contrasena,
+            foto:foto
+        }),
+    });
+
+    const data=await response.json();
+    return data
+    }
+    
 
 
 

@@ -103,7 +103,7 @@ class PuntodeReciclaje{
         }
       }
 
-      static async puntorealizado(punto: string): Promise<response> {
+      static async puntorealizado(punto: string,usuario:string,contrasena:string): Promise<response> {
         try {
             const response = await fetch("http://192.168.0.179:3001/punto-realizado", {
                 method: 'POST',
@@ -111,7 +111,9 @@ class PuntodeReciclaje{
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    lugar: punto
+                    lugar: punto,
+                    usuario:usuario,
+                    contrasena:contrasena
                 }),
             });
     

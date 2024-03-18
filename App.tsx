@@ -14,6 +14,7 @@ import PFrecuentes from './Pages/PFrecuentes';
 import Ecomentarios from './Pages/Ecomentarios';
 import OContraseña from './Pages/OContraseña';
 import Preciclaje from './Pages/Preciclaje';
+import Foto from './Pages/Foto';
 
 
 
@@ -70,6 +71,19 @@ const CargaInicial: React.FC<{ navigation: any }> = ({ navigation }) => {
         <Stack.Screen 
           name='Preciclaje'
           component={Preciclaje}
+          options={{
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'rgba(0,0,0,0)',
+              borderBottomWidth: 0,
+            },
+          }}
+        
+        />
+
+        <Stack.Screen 
+          name='foto'
+          component={Foto}
           options={{
             headerTitle: '',
             headerStyle: {

@@ -26,6 +26,7 @@ export default function Registrate({ navigation }: RegistrateProps) {
     }
     
     else{
+        console.log(NTelefono);
         const usuario=new Usuario(Correo,Contra,parseInt(DNI),parseInt(NTelefono));
         usuario.register(navigation);
     
