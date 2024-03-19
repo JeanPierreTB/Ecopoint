@@ -16,6 +16,7 @@ import { RootStackParamList } from "../Types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import PuntodeReciclaje from "../Clases/PuntodeReciclaje";
 import MapViewDirections from "react-native-maps-directions";
+import Usuario from "../Clases/Usuario";
 
 type PrincipalProps = {
   navigation: StackNavigationProp<RootStackParamList, "principal">;
@@ -29,6 +30,7 @@ export default function Principal({ navigation }: PrincipalProps) {
 
   const [puntosrec, setpuntosrec] = useState<any[]>([]);
   const [puntosar, setpuntosar] = useState<any[]>([]);
+  const [datos,setdatos]=useState<any>(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +45,7 @@ export default function Principal({ navigation }: PrincipalProps) {
     getlocationpermission();
     fetchData();
     getpoints();
+    datosusuario();
   }, []);
 
   async function getpoints() {
@@ -79,6 +82,18 @@ export default function Principal({ navigation }: PrincipalProps) {
     }
   };
 
+
+  const datosusuario=async()=>{
+    try{
+      const usuario = await AsyncStorage.getItem('usuario');
+      const usuarioObjeto = usuario? JSON.parse(usuario):null;
+      const usuario1=await Usuario.datosusuario(usuarioObjeto);
+      setdatos(usuario1);
+    }catch(e){
+      console.error('Ocurrio un error',e)
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.principal1}>
@@ -90,7 +105,8 @@ export default function Principal({ navigation }: PrincipalProps) {
           <Image
             style={styles.imagen}
             source={{
-              uri: "https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg",
+              uri: datos?.foto || 'https://static.vecteezy.com/system/resources/previews/027/728/804/non_2x/faceless-businessman-user-profile-icon-business-leader-profile-picture-portrait-user-member-people-icon-in-flat-style-circle-button-with-avatar-photo-silhouette-free-png.png',
+
             }}
           />
         </TouchableOpacity>

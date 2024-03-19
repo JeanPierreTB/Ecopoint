@@ -50,8 +50,9 @@ export default function Principal({navigation}:PreciclajeProps) {
     try{
         const usuario = await AsyncStorage.getItem('usuario');
         const usuarioObjeto = usuario? JSON.parse(usuario):null;
+        console.log("se dio click",usuarioObjeto,punto?.getid());
         punto?
-        PuntodeReciclaje.realizarpunto(usuarioObjeto.nombre,usuarioObjeto.contraseña,punto.getid(),navigation):
+        PuntodeReciclaje.realizarpunto(usuarioObjeto,punto?.getid(),navigation):
         alert("Oucrrio un error")
     }catch(e){
         console.error('Error al recuperar el punto', e);

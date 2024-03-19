@@ -6,7 +6,7 @@ class Comentario{
         this.tipo=tipo
     }
 
-    async agregarcomentario(nombre:string,contrasena:string):Promise<boolean>{
+    async agregarcomentario(id:number):Promise<boolean>{
         try{
             const response=await fetch("http://192.168.0.179:3001/realizar-comentario",{
                 method:'POST',
@@ -14,8 +14,7 @@ class Comentario{
                     "Content-Type":"application/json"
                 },
                 body:JSON.stringify({
-                    nombre:nombre,
-                    contrasena:contrasena,
+                    id:id,
                     des:this.des,
                     tipo:this.tipo
                 })

@@ -14,6 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Comentario from "../Clases/Comentario";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Picker } from "@react-native-picker/picker";
+import Usuario from "../Clases/Usuario";
 
 const opciones = [
   {
@@ -42,10 +43,13 @@ const Comunidad: React.FC<any> = ({ navigation }: ComunidadProps) => {
   const [selectedOption, setSelectedOption] = useState("0");
   const [texto, settexto] = useState("");
   const [comentarios, setcometarios] = useState<any[]>([]);
+  const [datos,setdatos]=useState<any>(null);
   const textInputRef = useRef<TextInput>(null);
+  
 
   useEffect(() => {
     mostrarcomentario();
+    datosusuario();
   }, []);
 
   const mostrarcomentario = async () => {
@@ -56,6 +60,17 @@ const Comunidad: React.FC<any> = ({ navigation }: ComunidadProps) => {
       console.log("Ocurrio un error", e);
     }
   };
+
+  const datosusuario=async ()=>{
+    try{
+      const usuario = await AsyncStorage.getItem('usuario');
+      const usuarioObjeto = usuario? JSON.parse(usuario):null;
+      const usuario1=await Usuario.datosusuario(usuarioObjeto);
+      setdatos(usuario1);
+    }catch(e){
+      console.log('Ocurrio un error',e)
+    }
+  }
   const handlePickerChange = (itemValue: string) => {
     console.log("Numero" + itemValue);
     setSelectedOption(itemValue);
@@ -70,10 +85,7 @@ const Comunidad: React.FC<any> = ({ navigation }: ComunidadProps) => {
       const usuariobjeto = usuario ? JSON.parse(usuario) : null;
       console.log(texto);
       const coment = new Comentario(texto, parseInt(selectedOption));
-      await coment.agregarcomentario(
-        usuariobjeto.nombre,
-        usuariobjeto.contraseña
-      ); 
+      await coment.agregarcomentario(usuariobjeto); 
       await mostrarcomentario(); 
       textInputRef.current?.clear();
       alert("Comentario agregado");
@@ -89,7 +101,8 @@ const Comunidad: React.FC<any> = ({ navigation }: ComunidadProps) => {
         <Image
           style={styles.imagen}
           source={{
-            uri: "https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg",
+            uri: datos?.foto || 'https://static.vecteezy.com/system/resources/previews/027/728/804/non_2x/faceless-businessman-user-profile-icon-business-leader-profile-picture-portrait-user-member-people-icon-in-flat-style-circle-button-with-avatar-photo-silhouette-free-png.png',
+
           }}
         />
       </View>
@@ -101,7 +114,7 @@ const Comunidad: React.FC<any> = ({ navigation }: ComunidadProps) => {
               <CajaComunidad
                 key={comentario.id}
                 nombre={comentario.Usuario.nombre}
-                foto="hola"
+                foto= {comentario.Usuario?.foto || 'https://static.vecteezy.com/system/resources/previews/027/728/804/non_2x/faceless-businessman-user-profile-icon-business-leader-profile-picture-portrait-user-member-people-icon-in-flat-style-circle-button-with-avatar-photo-silhouette-free-png.png'}
                 com={comentario.des}
                 tipo={comentario.tipo}
               />

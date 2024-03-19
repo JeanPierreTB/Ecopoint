@@ -14,7 +14,7 @@ function CajaComunidad({nombre,foto,com,tipo}:Comunidad) {
   return (
 
     <View style={[styles.container ,tipo===1? styles.rojo:tipo===2? styles.gris:styles.verde]}>
-        <Text>{nombre}</Text>
+        <Text style={{fontWeight:'bold'}}>{nombre}</Text>
         <View style={styles.caja}>
             <Image
             style={styles.imagen}
@@ -49,7 +49,8 @@ const styles=StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'center',
-        height:'80%'
+        height:'80%',
+        gap:10
     },
     imagen:{
         width:50,

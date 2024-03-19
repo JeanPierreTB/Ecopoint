@@ -7,6 +7,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../Types/types";
 import Usuario from "../Clases/Usuario";
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useFocusEffect } from "@react-navigation/native";
 
 
 type PerfilProps = {
@@ -29,8 +30,8 @@ function Perfil({ navigation }: PerfilProps) {
       const usuario = await AsyncStorage.getItem('usuario');
       const usuarioObjeto = usuario ? JSON.parse(usuario) : null;
       console.log(usuarioObjeto);
-      const datosUsuario = await Usuario.datosusuario(usuarioObjeto.nombre, usuarioObjeto.contraseña);
-      const infousuario=await Usuario.datosinformativos(usuarioObjeto.nombre,usuarioObjeto.contraseña);
+      const datosUsuario = await Usuario.datosusuario(usuarioObjeto);
+      const infousuario=await Usuario.datosinformativos(usuarioObjeto);
       console.log(infousuario);
       setdatos(datosUsuario);
       setinfo(infousuario);
@@ -39,6 +40,11 @@ function Perfil({ navigation }: PerfilProps) {
     }
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      obtenerDatos();
+    }, [])
+  );
   
 
 
@@ -53,7 +59,7 @@ function Perfil({ navigation }: PerfilProps) {
       <Image
         style={styles.imagen2}
         source={{
-          uri: datos?.foto,
+          uri: datos?.foto || 'https://static.vecteezy.com/system/resources/previews/027/728/804/non_2x/faceless-businessman-user-profile-icon-business-leader-profile-picture-portrait-user-member-people-icon-in-flat-style-circle-button-with-avatar-photo-silhouette-free-png.png',
         }}
       />
       <Text style={styles.texto}>{datos?.nombre}</Text>
@@ -87,8 +93,8 @@ function Perfil({ navigation }: PerfilProps) {
         <Text onPress={() => navigation.navigate("cuenta")}>Configuracion</Text>
       </View>
       <View style={styles.texic}>
-        <Icon name="life-ring" size={30} color="black" />
-        <Text onPress={() => navigation.navigate("soporte")}>Soporte</Text>
+        <Icon name="star" size={30} color="black" />
+        <Text onPress={() => navigation.navigate("soporte")}>Ranking</Text>
       </View>
       <View style={styles.texic}>
         <Icon name="sign-out" size={30} color="red" />

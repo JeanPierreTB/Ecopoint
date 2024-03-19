@@ -49,16 +49,16 @@ class PuntodeReciclaje{
         }
       }
 
-      static async realizarpunto(nom:string,contra:string,id:number,navigation:any):Promise<void>{
+      static async realizarpunto(id_usuario:number,id:number,navigation:any):Promise<void>{
         try{
+            console.log("esto no es una prueba",id_usuario,id);
             await fetch("http://192.168.0.179:3001/realizar-punto", {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
         },
             body: JSON.stringify({
-                nombre:nom ,
-                contrasena:contra,
+                idu:id_usuario,
                 id:id
             }),
             })
@@ -103,7 +103,7 @@ class PuntodeReciclaje{
         }
       }
 
-      static async puntorealizado(punto: string,usuario:string,contrasena:string): Promise<response> {
+      static async puntorealizado(punto: string,id:number): Promise<response> {
         try {
             const response = await fetch("http://192.168.0.179:3001/punto-realizado", {
                 method: 'POST',
@@ -112,8 +112,7 @@ class PuntodeReciclaje{
                 },
                 body: JSON.stringify({
                     lugar: punto,
-                    usuario:usuario,
-                    contrasena:contrasena
+                    id:id
                 }),
             });
     

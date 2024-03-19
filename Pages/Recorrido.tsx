@@ -34,8 +34,9 @@ const Recorrido: React.FC<any> = ({ navigation }: RecorridoProps) => {
     try {
       console.log(selectedOption);
       const usuario = await AsyncStorage.getItem('usuario');
-        const usuarioObjeto = usuario? JSON.parse(usuario):null;
-      const data = await PuntodeReciclaje.puntorealizado(selectedOption,usuarioObjeto.nombre,usuarioObjeto.contraseña);
+      const usuarioObjeto = usuario? JSON.parse(usuario):null;
+      console.log("id",usuarioObjeto);
+      const data = await PuntodeReciclaje.puntorealizado(selectedOption,usuarioObjeto);
       if (data) {
         const nuevaLista = transacciones?.filter(transaccion => transaccion.id !== data.punto?.id);
         setTransacciones(nuevaLista || []);

@@ -39,7 +39,8 @@ const tomarfoto = async () => {
             const usuarioObjeto = usuario ? JSON.parse(usuario) : null;
             
             if (data) { // Verificar si data está definido antes de usarlo
-                Usuario.actualizarfoto(usuarioObjeto.nombre, usuarioObjeto.contraseña, data.uri);
+                Usuario.actualizarfoto(usuarioObjeto, data.uri);
+                alert('Foto actualizada');
                 navigation.navigate("cuenta")
             }
         } catch(e) {

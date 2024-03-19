@@ -2,6 +2,10 @@ import { URL } from "../URL/URL";
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+/*interface respuesta{
+  mensaje:string,
+  res:boolean
+}*/
 
 
 class Usuario{
@@ -38,7 +42,9 @@ class Usuario{
       
           if (data.res) {
             // Almacena información de sesión segura en AsyncStorage
-            const userData = { nombre: this.nombre,contraseña:this.contraseña };
+            console.log(data.usuario.id);
+            const userData=data.usuario.id;
+            //const userData = { nombre: this.nombre,contraseña:this.contraseña };
             AsyncStorage.setItem('usuario', JSON.stringify(userData));
             navigation.navigate('principal');
           } else {
@@ -107,7 +113,7 @@ class Usuario{
         
     }
 
-    static async datosusuario(nombre:string,contrasena:string):Promise<any>{
+    static async datosusuario(id:number):Promise<any>{
       try{
         const response = await fetch("http://192.168.0.179:3001/obtener-usuario", {
                 method: 'POST',
@@ -115,8 +121,7 @@ class Usuario{
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    nombre:nombre,
-                    contraseña:contrasena
+                    id:id
                 }),
             });
          const data=await response.json();
@@ -128,7 +133,7 @@ class Usuario{
       }
     }
 
-    static async datosinformativos(nombre:string,contrasena:string):Promise<any>{
+    static async datosinformativos(id:number):Promise<any>{
       try{
         const response = await fetch("http://192.168.0.179:3001/notas-usuario", {
                 method: 'POST',
@@ -136,8 +141,7 @@ class Usuario{
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    nombre:nombre,
-                    contraseña:contrasena
+                   id:id
                 }),
             });
          const data=await response.json();
@@ -149,21 +153,57 @@ class Usuario{
       }
     }
 
-    static async actualizarfoto(nombre:string,contrasena:string,foto:string):Promise<any>{
+    static async actualizarfoto(id:number,foto:string):Promise<any>{
       const response=await fetch("http://192.168.0.179:3001/actualizar-foto", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            nombre:nombre,
-            contraseña:contrasena,
+            id:id,
             foto:foto
         }),
     });
 
     const data=await response.json();
     return data
+    }
+
+    async actualizadatos(id:number):Promise<any>{
+      try{
+        const response = await fetch("http://192.168.0.179:3001/actualizar-datos-usuario", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                   id:id,
+                   nombre:this.nombre,
+                   contrasena:this.contraseña,
+                   dni:this.Dni,
+                   ntelefono:this.ntelefono
+                }),
+            });
+            const data=await response.json();
+            return data;
+          
+      }catch(e){
+        console.error("Ocurrio un error",e)
+      }
+
+      return null;
+      
+    }
+
+    static async obtenerranking():Promise<any>{
+      try{
+        const response=await fetch('http://192.168.0.179:3001/rankings-usuarios')
+        const data=await response.json();
+        console.log(data.usuarios);
+        return data.usuarios;
+      }catch(e){
+        console.error("Ocurrio un error",e)
+      }
     }
     
 
