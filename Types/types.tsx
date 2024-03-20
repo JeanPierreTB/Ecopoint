@@ -18,6 +18,8 @@ export type RootStackParamList = {
     ocontra:undefined;
     Preciclaje:undefined;
     foto:undefined
+    agregar:undefined;
+    misamigos:undefined;
   };
 
 

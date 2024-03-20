@@ -205,6 +205,49 @@ class Usuario{
         console.error("Ocurrio un error",e)
       }
     }
+
+    static async obtenernoamigos(id:number):Promise<any>{
+      try{
+        const response=await fetch('http://192.168.0.179:3001/todos-sin-amigos',{
+          method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                   id:id,
+                   
+                }),
+        })
+        const data=await response.json();
+        console.log(data.usuario);
+        return data.usuario;
+
+      }catch(e){
+        console.error("Ocurrio un error",e)
+      }
+    }
+
+    static async agregaramigos(id_usuario:number,id_amigo:number):Promise<any>{
+      try{
+        const response=await fetch('http://192.168.0.179:3001/agregar-amigos',{
+          method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                   idusuario:id_usuario,
+                   idamigo:id_amigo
+                   
+                }),
+        })
+
+        const data=await response.json();
+        console.log(data.mensaje)
+        return data.mensaje;
+      }catch(e){
+        console.error("Ocurrio un error",e)
+      }
+    }
     
 
 

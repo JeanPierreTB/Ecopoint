@@ -14,6 +14,7 @@ function CajaComunidad({nombre,foto,com,tipo}:Comunidad) {
   return (
 
     <View style={[styles.container ,tipo===1? styles.rojo:tipo===2? styles.gris:styles.verde]}>
+        
         <Text style={{fontWeight:'bold'}}>{nombre}</Text>
         <View style={styles.caja}>
             <Image

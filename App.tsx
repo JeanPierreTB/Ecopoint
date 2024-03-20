@@ -15,6 +15,8 @@ import Ecomentarios from './Pages/Ecomentarios';
 import OContraseña from './Pages/OContraseña';
 import Preciclaje from './Pages/Preciclaje';
 import Foto from './Pages/Foto';
+import AgregarAmigos from './Pages/AgregarAmigos';
+import Misamigos from './Pages/Misamigos';
 
 
 
@@ -104,6 +106,32 @@ const CargaInicial: React.FC<{ navigation: any }> = ({ navigation }) => {
           options={{headerShown:false}}
         
         />
+
+        <Stack.Screen
+          name="agregar"
+          component={AgregarAmigos}
+          options={{
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'rgba(0,0,0,0)',
+              borderBottomWidth: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="misamigos"
+          component={Misamigos}
+          options={{
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'rgba(0,0,0,0)',
+              borderBottomWidth: 0,
+            },
+          }}
+        />
+
+
         <Stack.Screen
           name="cuenta"
           component={Cuenta}

@@ -67,11 +67,11 @@ function Perfil({ navigation }: PerfilProps) {
       <View style={styles.botones}>
         <TouchableOpacity style={styles.boton}>
           <Icon name="user-plus" size={20} color="green" />
-          <Text style={styles.textob}>AGREGAR AMIGOS</Text>
+          <Text style={styles.textob} onPress={()=>navigation.navigate("agregar")}>AGREGAR AMIGOS</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.boton}>
           <Icon name="users" size={20} color="green" />
-          <Text style={styles.textob}>MIS AMIGOS</Text>
+          <Text style={styles.textob} onPress={()=>navigation.navigate("misamigos")}>MIS AMIGOS</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.borde}></View>
