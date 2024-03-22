@@ -31,9 +31,11 @@ function Perfil({ navigation }: PerfilProps) {
       const usuarioObjeto = usuario ? JSON.parse(usuario) : null;
       console.log(usuarioObjeto);
       const datosUsuario = await Usuario.datosusuario(usuarioObjeto);
+      AsyncStorage.setItem('datos', JSON.stringify(datosUsuario));
       const infousuario=await Usuario.datosinformativos(usuarioObjeto);
       console.log(infousuario);
       setdatos(datosUsuario);
+      
       setinfo(infousuario);
     } catch (error) {
       console.error('Error al obtener datos:', error);
@@ -56,13 +58,16 @@ function Perfil({ navigation }: PerfilProps) {
           uri: "https://concepto.de/wp-content/uploads/2018/10/bosque2-e1539893598295.jpg",
         }}
       />
+      <Icon style={styles.icon} name="bell" size={30} color='green' onPress={()=>navigation.navigate("notificaciones")} />
       <Image
         style={styles.imagen2}
         source={{
           uri: datos?.foto || 'https://static.vecteezy.com/system/resources/previews/027/728/804/non_2x/faceless-businessman-user-profile-icon-business-leader-profile-picture-portrait-user-member-people-icon-in-flat-style-circle-button-with-avatar-photo-silhouette-free-png.png',
         }}
       />
+      
       <Text style={styles.texto}>{datos?.nombre}</Text>
+      
       <Text style={styles.numero}>+51 {datos?.ntelefono}</Text>
       <View style={styles.botones}>
         <TouchableOpacity style={styles.boton}>
@@ -178,6 +183,11 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
   },
+  icon:{
+   position:'absolute',
+   right:10,
+   top:4
+  }
 });
 
 export default Perfil;

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View ,Image,Text,StyleSheet,TouchableOpacity} from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Usuario from '../Clases/Usuario';
+import Notifiacion from '../Clases/Notifiacion';
 
 
 
@@ -12,26 +13,53 @@ interface Props{
     puntaje:string,
     tipo?:boolean,
     id:number,
-    onupdate:()=>void
+    onupdate?:()=>void
 }
 
 function CajaAmigos({foto,nombre,puntaje,tipo=true,id,onupdate}:Props) {
 
+  const[agregado,setagreado]=useState(false);
+
   const handleclik=async ()=>{
-    const usuario = await AsyncStorage.getItem('usuario');
+    
+    const usuario = await AsyncStorage.getItem('nombre');
     const usuarioObjeto = usuario? JSON.parse(usuario):null;
-    const usuarioamigo=await Usuario.agregaramigos(usuarioObjeto,id);
-    alert(usuarioamigo);
-    onupdate();
+    const data=await AsyncStorage.getItem('datos');
+    const dataobjeto=data? JSON.parse(data):null;
+
+    console.log("esto es de nombre",usuarioObjeto)
+    const noti=new Notifiacion(`${dataobjeto.nombre} te ha enviado una solictud de amistad`,1,dataobjeto.nombre,dataobjeto.foto);
+    const respuesta=await noti.agregarnotifiacionamigo(id);
+    if(respuesta.res){
+      setagreado(true);
+    }
+    alert(respuesta.mensaje);
+   
+    if (typeof onupdate === 'function') {
+      onupdate();
+    }
     
   }
+
+  
   return (
     <View style={styles.container}>
-      {tipo &&(
-        <TouchableOpacity >
-        <Icon name="user-plus" size={25} color="green" onPress={()=>handleclik()} />
-        </TouchableOpacity>
+      {tipo && (
+        <>
+          {agregado ? (
+            <Icon name="clock-o" size={25} color="green" />
+          ) : (
+            <TouchableOpacity onPress={() => handleclik()}>
+              <Icon name="user-plus" size={25} color="green" />
+            </TouchableOpacity>
+          )}
+        </>
       )}
+
+        {/*<TouchableOpacity >
+        <Icon name="user-plus" size={25} color="green" onPress={()=>handleclik()} />
+        </TouchableOpacity>}*/}
+      
         
 
 

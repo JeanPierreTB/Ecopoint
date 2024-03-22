@@ -90,7 +90,7 @@ function Cuenta({ navigation }: CuentaProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 10
+    marginTop: 40
   },
   titulo: {
     marginLeft:10,

@@ -227,7 +227,7 @@ class Usuario{
       }
     }
 
-    static async agregaramigos(id_usuario:number,id_amigo:number):Promise<any>{
+    static async agregaramigos(id_usuario:number,nombre:string,nombre1:string,foto:string,des:string,tipo:number):Promise<any>{
       try{
         const response=await fetch('http://192.168.0.179:3001/agregar-amigos',{
           method: 'POST',
@@ -236,7 +236,12 @@ class Usuario{
                 },
                 body: JSON.stringify({
                    idusuario:id_usuario,
-                   idamigo:id_amigo
+                   nombre:nombre,
+                   nombre1:nombre1,
+                   foto:foto,
+                   des:des,
+                   tipo:tipo
+                   
                    
                 }),
         })
@@ -247,6 +252,56 @@ class Usuario{
       }catch(e){
         console.error("Ocurrio un error",e)
       }
+    }
+
+    static async amigorechazado(nombre:string,nombre1:string,foto:string,des:string,tipo:number):Promise<any>{
+      try{
+        const response=await fetch('http://192.168.0.179:3001/amigo-rechazado',{
+          method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                   nombre:nombre,
+                   nombre1:nombre1,
+                   foto:foto,
+                   des:des,
+                   tipo:tipo
+                   
+                   
+                }),
+        })
+
+        const data=await response.json();
+        console.log("datos no se",data);
+        return data.mensaje;
+      }catch(e){
+        console.error("Ocurrio un error",e)
+      }
+    }
+
+    static async misamigos(id:number):Promise<any>{
+      try{
+        const response=await fetch('http://192.168.0.179:3001/misamigos',{
+          method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                   id:id    
+                   
+                }),
+        })
+
+        const data=response.json();
+        console.log(data);
+        return data;
+
+
+      }catch(e){
+        console.error("Ocurrio un error",e)
+      }
+    
     }
     
 

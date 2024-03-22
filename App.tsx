@@ -17,6 +17,7 @@ import Preciclaje from './Pages/Preciclaje';
 import Foto from './Pages/Foto';
 import AgregarAmigos from './Pages/AgregarAmigos';
 import Misamigos from './Pages/Misamigos';
+import Notificaciones from './Pages/Notificaciones';
 
 
 
@@ -110,38 +111,26 @@ const CargaInicial: React.FC<{ navigation: any }> = ({ navigation }) => {
         <Stack.Screen
           name="agregar"
           component={AgregarAmigos}
-          options={{
-            headerTitle: '',
-            headerStyle: {
-              backgroundColor: 'rgba(0,0,0,0)',
-              borderBottomWidth: 0,
-            },
-          }}
+          options={{headerShown:false}}
         />
 
         <Stack.Screen
           name="misamigos"
           component={Misamigos}
-          options={{
-            headerTitle: '',
-            headerStyle: {
-              backgroundColor: 'rgba(0,0,0,0)',
-              borderBottomWidth: 0,
-            },
-          }}
+          options={{headerShown:false}}
+        />
+
+        <Stack.Screen
+          name="notificaciones"
+          component={Notificaciones}
+          options={{headerShown:false}}
         />
 
 
         <Stack.Screen
           name="cuenta"
           component={Cuenta}
-          options={{
-            headerTitle: '',
-            headerStyle: {
-              backgroundColor: 'rgba(0,0,0,0)',
-              borderBottomWidth: 0,
-            },
-          }}
+          options={{headerShown:false}}
         />
 
         <Stack.Screen

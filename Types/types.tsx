@@ -20,6 +20,7 @@ export type RootStackParamList = {
     foto:undefined
     agregar:undefined;
     misamigos:undefined;
+    notificaciones:undefined
   };
 
 
