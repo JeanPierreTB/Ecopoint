@@ -3,8 +3,15 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import CajaAmigos from "../Componentes/CajaAmigos";
 import Usuario from "../Clases/Usuario";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../Types/types';
 
-function Misamigos() {
+type MisamigosProps = {
+  navigation: StackNavigationProp<RootStackParamList, 'misamigos'>; 
+};
+
+const Misamigos: React.FC<MisamigosProps> = ({ navigation }) => {
+
   const [amigos, setamigos] = useState([]);
 
   useEffect(() => {
@@ -40,6 +47,7 @@ function Misamigos() {
               puntaje={amigo.puntaje}
               tipo={false}
               id={amigo.id}
+              navigation={navigation}
             />
           ))}
         </View>

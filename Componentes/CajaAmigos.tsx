@@ -4,6 +4,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Usuario from '../Clases/Usuario';
 import Notifiacion from '../Clases/Notifiacion';
+import Comentario from '../Clases/Comentario';
+
 
 
 
@@ -13,10 +15,11 @@ interface Props{
     puntaje:string,
     tipo?:boolean,
     id:number,
-    onupdate?:()=>void
+    onupdate?:()=>void,
+    navigation?:any
 }
 
-function CajaAmigos({foto,nombre,puntaje,tipo=true,id,onupdate}:Props) {
+function CajaAmigos({foto,nombre,puntaje,tipo=true,id,onupdate,navigation}:Props) {
 
   const[agregado,setagreado]=useState(false);
 
@@ -40,6 +43,12 @@ function CajaAmigos({foto,nombre,puntaje,tipo=true,id,onupdate}:Props) {
     }
     
   }
+
+ const handlechatpersonal=()=>{
+  AsyncStorage.setItem('personachat', JSON.stringify(nombre));
+  AsyncStorage.setItem('idamigo',JSON.stringify(id));
+  navigation.navigate("chatpersonal")
+ }
 
   
   return (
@@ -76,8 +85,8 @@ function CajaAmigos({foto,nombre,puntaje,tipo=true,id,onupdate}:Props) {
         <Text style={styles.texto}>{puntaje}</Text>
 
         {!tipo &&(
-          <TouchableOpacity >
-          <Icon name="comment" size={25} color="green" />
+          <TouchableOpacity onPress={()=>handlechatpersonal()}>
+              <Icon name="comment" size={25} color="green" />
           </TouchableOpacity>
         )}
           

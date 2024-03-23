@@ -18,6 +18,7 @@ import Foto from './Pages/Foto';
 import AgregarAmigos from './Pages/AgregarAmigos';
 import Misamigos from './Pages/Misamigos';
 import Notificaciones from './Pages/Notificaciones';
+import Chatpersonal from './Pages/Chatpersonal';
 
 
 
@@ -130,6 +131,12 @@ const CargaInicial: React.FC<{ navigation: any }> = ({ navigation }) => {
         <Stack.Screen
           name="cuenta"
           component={Cuenta}
+          options={{headerShown:false}}
+        />
+
+        <Stack.Screen
+          name="chatpersonal"
+          component={Chatpersonal}
           options={{headerShown:false}}
         />
 

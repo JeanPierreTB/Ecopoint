@@ -41,6 +41,51 @@ class Comentario{
             return [];
         }
     }
+
+    async agregarcomentariopersonal(id_usuario:number,id_amigo:number):Promise<any>{
+        try{
+            const response=await fetch('http://192.168.0.179:3001/agregar-comentariouau',{
+                method:'POST',
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    id_usuario:id_usuario,
+                    id_amigo:id_amigo,
+                    des:this.des,
+                    tipo:this.tipo
+
+                })
+            })
+
+            const data=await response.json();
+            console.log(data);
+            return data;
+        }catch(e){
+            console.error('Ocurrio un error',e)
+        }
+    }
+
+    static async recuperarchatusuario(id_usuario:number,id_amigo:number):Promise<any>{
+        try{
+            const respone=await fetch('http://192.168.0.179:3001/recuperar-comentariouau',{
+                method:'POST',
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    id_usuario:id_usuario,
+                    id_amigo:id_amigo
+                })
+            })
+
+            const data=await respone.json();
+            console.log(data.comentarios);
+            return data.comentarios;
+        }catch(e){
+            console.error("Ocurrio un error",e)
+        }
+    }
 }
 
 
