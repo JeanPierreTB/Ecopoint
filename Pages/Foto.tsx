@@ -7,6 +7,8 @@ import Usuario from '../Clases/Usuario';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../Types/types";
+import PuntodeReciclaje from '../Clases/PuntodeReciclaje';
+
 
 type FotoProps = {
     navigation: StackNavigationProp<RootStackParamList, "foto">;
@@ -18,6 +20,8 @@ export default function Foto({ navigation }: FotoProps) {
   const[imagen,setimagen]=useState<string|null >(null);
   const[type,setype]=useState(CameraType.back);
   const cameraRef=useRef<Camera>(null);
+  const [escaneoRealizado, setEscaneoRealizado] = useState(false); // Nuevo estado para controlar si se ha realizado un escaneo
+
 
 
   useEffect(() => {
@@ -55,6 +59,23 @@ const tomarfoto = async () => {
     return <Text>No hay acceso a la camara</Text>
   }
 
+  const handleBarCodeScanned = async ({ type, data }: { type: string; data: string }) => {
+    if (!escaneoRealizado) { // Verificar si ya se ha realizado un escaneo
+      alert(`Código ${type} escaneado: ${data}`);
+      setEscaneoRealizado(true);
+      const parsedData=JSON.parse(data);
+      const lugarseleccionado = await AsyncStorage.getItem('puntoqr');
+      const lugarseleccionadodata = lugarseleccionado? JSON.parse(lugarseleccionado):null;
+      const usuario = await AsyncStorage.getItem('usuario');
+      const usuarioObjeto = usuario? JSON.parse(usuario):null;
+      const punto=new PuntodeReciclaje(undefined,parsedData.latitud,parsedData.longitud,parsedData.lugar,parsedData.puntos);
+      const res=await punto.puntorealizadoqr(lugarseleccionadodata,usuarioObjeto);
+      alert(res.mensaje);
+
+      navigation.navigate("principal")
+
+    }
+  };
 
 
   return (
@@ -64,6 +85,7 @@ const tomarfoto = async () => {
       style={styles.camera}
       type={type}
       ref={cameraRef}
+      onBarCodeScanned={handleBarCodeScanned}
     >
     <Text>Hello</Text>
     </Camera>

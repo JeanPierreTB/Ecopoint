@@ -62,7 +62,7 @@ function Perfil({ navigation }: PerfilProps) {
       <Image
         style={styles.imagen2}
         source={{
-          uri: datos?.foto || 'https://static.vecteezy.com/system/resources/previews/027/728/804/non_2x/faceless-businessman-user-profile-icon-business-leader-profile-picture-portrait-user-member-people-icon-in-flat-style-circle-button-with-avatar-photo-silhouette-free-png.png',
+          uri: datos?.foto,
         }}
       />
       

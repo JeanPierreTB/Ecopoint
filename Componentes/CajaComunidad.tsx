@@ -30,7 +30,7 @@ function CajaComunidad({nombre,foto,com,tipo}:Comunidad) {
 
 const styles=StyleSheet.create({
     container:{
-        width:'90%',
+        width:'95%',
         height:120,
         borderWidth:1,
         borderRadius:20,

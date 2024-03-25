@@ -83,8 +83,7 @@ function Chatpersonal() {
                 key={inf.id}
                 nombre={inf.Usuario.nombre}
                 foto={
-                  inf.Usuario?.foto ||
-                  "https://static.vecteezy.com/system/resources/previews/027/728/804/non_2x/faceless-businessman-user-profile-icon-business-leader-profile-picture-portrait-user-member-people-icon-in-flat-style-circle-button-with-avatar-photo-silhouette-free-png.png"
+                  inf.Usuario?.foto 
                 }
                 com={inf.des}
                 tipo={inf.tipo}
@@ -162,7 +161,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     alignItems: "center",
     justifyContent: "center",
-    gap: 20,
+    gap: 20
   },
 });
 

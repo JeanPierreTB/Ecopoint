@@ -101,7 +101,7 @@ const Comunidad: React.FC<any> = ({ navigation }: ComunidadProps) => {
         <Image
           style={styles.imagen}
           source={{
-            uri: datos?.foto || 'https://static.vecteezy.com/system/resources/previews/027/728/804/non_2x/faceless-businessman-user-profile-icon-business-leader-profile-picture-portrait-user-member-people-icon-in-flat-style-circle-button-with-avatar-photo-silhouette-free-png.png',
+            uri: datos?.foto,
 
           }}
         />
@@ -114,7 +114,7 @@ const Comunidad: React.FC<any> = ({ navigation }: ComunidadProps) => {
               <CajaComunidad
                 key={comentario.id}
                 nombre={comentario.Usuario.nombre}
-                foto= {comentario.Usuario?.foto || 'https://static.vecteezy.com/system/resources/previews/027/728/804/non_2x/faceless-businessman-user-profile-icon-business-leader-profile-picture-portrait-user-member-people-icon-in-flat-style-circle-button-with-avatar-photo-silhouette-free-png.png'}
+                foto= {comentario.Usuario?.foto}
                 com={comentario.des}
                 tipo={comentario.tipo}
               />

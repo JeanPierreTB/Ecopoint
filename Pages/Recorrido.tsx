@@ -4,12 +4,16 @@ import { Picker } from '@react-native-picker/picker';
 import { RecorridoProps } from '../Types/types';
 import PuntodeReciclaje from '../Clases/PuntodeReciclaje';
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useFocusEffect } from "@react-navigation/native";
+
 
 
 const Recorrido: React.FC<any> = ({ navigation }: RecorridoProps) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [transacciones, setTransacciones] = useState<any[] | null>([]);
   const [selectedPuntaje, setSelectedPuntaje] = useState('');
+  
+  
 
   const handlePickerChange = (itemValue: string) => {
     const selectedTransaccion = transacciones?.find((transaccion) => transaccion.lugar === itemValue);
@@ -30,7 +34,14 @@ const Recorrido: React.FC<any> = ({ navigation }: RecorridoProps) => {
     recuperarTransaccion();
   }, []);
 
-  const handlereclamar = async () => {
+  useFocusEffect(
+    React.useCallback(() => {
+      recuperarTransaccion();
+      setSelectedPuntaje('');
+    }, [])
+  );
+
+  const handlecancelar = async () => {
     try {
       console.log(selectedOption);
       const usuario = await AsyncStorage.getItem('usuario');
@@ -48,6 +59,11 @@ const Recorrido: React.FC<any> = ({ navigation }: RecorridoProps) => {
     }
   };
   
+
+  const gofoto=()=>{
+    AsyncStorage.setItem('puntoqr', JSON.stringify(selectedOption));
+    navigation.navigate("foto");
+  }
   
   
 
@@ -88,10 +104,10 @@ const Recorrido: React.FC<any> = ({ navigation }: RecorridoProps) => {
       </View>
 
       <View style={styles.container2}>
-        <TouchableOpacity style={styles.boton} onPress={()=>handlereclamar()}>
+        <TouchableOpacity style={styles.boton} onPress={()=>handlecancelar()}>
           <Text style={styles.texto}>Cancelacion de reciclaje</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.boton} onPress={()=>handlereclamar()}>
+        <TouchableOpacity style={styles.boton} onPress={() =>gofoto()}>
           <Text style={styles.texto}>Reclamar puntos</Text>
         </TouchableOpacity>
       </View>

@@ -105,7 +105,7 @@ class PuntodeReciclaje{
 
       static async puntorealizado(punto: string,id:number): Promise<response> {
         try {
-            const response = await fetch("http://192.168.0.179:3001/punto-realizado", {
+            const response = await fetch("http://192.168.0.179:3001/punto-cancelado", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -132,6 +132,32 @@ class PuntodeReciclaje{
                 punto: null
             };
         }
+    }
+
+    async puntorealizadoqr(lugarseleccionado:string,id:number):Promise<any>{
+      try{
+        const response=await fetch('http://192.168.0.179:3001/punto-cancelado-qr',{
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              lugarseleccionado:lugarseleccionado,
+              latitud:this.latitud,
+              longitud:this.longitud,
+              lugar:this.lugar,
+              puntos:this.puntos,
+              id:id
+          }),
+        })
+
+        const data=await response.json();
+        console.log(data);
+        return data;
+      }catch(e){
+        console.log("Ocurrio un error",e)
+      }
+      
     }
     
       
