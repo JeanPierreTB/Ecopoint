@@ -20,6 +20,24 @@ class Objetivo{
             return [];
         }
     }
+
+    async agregarobjetivo():Promise<any>{
+        const response=await fetch('http://192.168.0.179:3001/agregar-objetivo',{
+            method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                   des:this.des,
+                   puntos:this.puntos,
+                   dia:this.dia
+                   
+                }),
+        })
+
+        const data=await response.json();
+        return data;
+    }
 }
 
 export default Objetivo;
