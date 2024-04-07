@@ -23,6 +23,7 @@ function CajaComunidad({nombre,foto,com,tipo}:Comunidad) {
             />
             <Text style={styles.texto}>{com}</Text>
         </View>
+
         
     </View>
   )

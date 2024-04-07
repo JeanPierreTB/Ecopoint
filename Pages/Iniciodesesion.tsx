@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TouchableOpacity,Text,StyleSheet,View,Image, Alert } from 'react-native'
 import facebook from '../assets/facebook.png'
 import google from '../assets/google.png'
@@ -7,6 +7,8 @@ import { TextInput } from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../Types/types';
 import Usuario from "../Clases/Usuario";
+import { objetivos } from '../data/Objetivos'
+import Objetivo from '../Clases/Objetivo'
 
 type IniciodesesionProps = {
     navigation: StackNavigationProp<RootStackParamList, 'sesion'>; 
@@ -15,6 +17,23 @@ type IniciodesesionProps = {
 const Iniciodesesion: React.FC<IniciodesesionProps> = ({ navigation }) => {
   const [email,setemail]=useState('');
   const [password,setpassword]=useState('');
+
+
+  useEffect(()=>{
+    //poblarobjetivos();
+  },[])
+
+  const poblarobjetivos=async ()=>{
+    
+
+  for (let i = 0; i < objetivos.length; i++) {
+    let ob1 = new Objetivo(objetivos[i].des, objetivos[i].puntos, objetivos[i].dia);
+    let res = await ob1.agregarobjetivo();
+    if (!res) {
+      break; // Terminar el bucle si no se puede agregar el objetivo
+    }
+  }
+  }
 
   const handleclik = () => {
     const campos=[email,password];

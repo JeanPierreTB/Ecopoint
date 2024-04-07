@@ -39,6 +39,22 @@ class Recompesa{
         const data=await response.json();
         return data;
     }
+
+    static async obtenerganador(id:number):Promise<any>{
+        const response=await fetch('http://192.168.0.179:3001/verificar-recompensa',{
+            method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                   id:id
+                   
+                }),
+        })
+
+        const data=await response.json();
+        return data;
+    }
 }
 
 export default Recompesa;

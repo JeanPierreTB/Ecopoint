@@ -67,12 +67,7 @@ function Chatpersonal() {
     <View style={styles.container}>
       <View style={styles.container2}>
         <Text style={styles.titulo}>Chat personal con {nombre} </Text>
-        <Image
-          style={styles.imagen}
-          source={{
-            uri: "https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg",
-          }}
-        />
+        
       </View>
 
       <ScrollView>

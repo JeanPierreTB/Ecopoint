@@ -6,21 +6,28 @@ import CajaObjetivo from '../Componentes/CajaObjetivo';
 import Objetivo from '../Clases/Objetivo';
 import Recompesa from '../Clases/Recompesa';
 import { objetivos } from '../data/Objetivos';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 const Recompesas: React.FC<any> = ({ navigation }:RecompensasProps) => {
   
   const[objetivos,setobjetivos]=useState<any[]>([]);
   const[recompesasem,setrecompesasem]=useState<any>();
+  const[mensaje,setmensaje]=useState("");
 
   useEffect(()=>{
     //poblarobjetivos(objetivos);
     obtenerecompesa();
-    recuperarobjetivos()
+    recuperarobjetivos();
+    actualizarobjetivos();
+    obtenerganador();
   },[]);
 
   const recuperarobjetivos=async ()=>{
     try{
-      const allobjetivos:any=await Objetivo.recuperarobjetivos();
+      const usuario = await AsyncStorage.getItem('usuario');
+      const usuarioObjeto = usuario? JSON.parse(usuario):null;
+      const allobjetivos:any=await Objetivo.recuperarobjetivos(usuarioObjeto);
       setobjetivos(allobjetivos);
     }catch(e){
       console.log('Ocurrio un error',e)
@@ -31,6 +38,33 @@ const Recompesas: React.FC<any> = ({ navigation }:RecompensasProps) => {
     const recompesasemanal=await Recompesa.obtenerrecompesasemanal();
     console.log(recompesasemanal.imagen);
     setrecompesasem(recompesasemanal);
+  }
+
+  const actualizarobjetivos=async()=>{
+
+    console.log("hello")
+    const usuario = await AsyncStorage.getItem('usuario');
+    const usuarioObjeto = usuario? JSON.parse(usuario):null;
+
+    const objetivosactualizados=await Objetivo.actualizarobjetivoshoy(usuarioObjeto);
+    console.log("Hola falso")
+    if(objetivosactualizados.res){
+      console.log("hola true")
+      recuperarobjetivos();
+    }
+
+  }
+
+
+  const obtenerganador=async()=>{
+    const usuario = await AsyncStorage.getItem('usuario');
+    const usuarioObjeto = usuario? JSON.parse(usuario):null;
+    const ganador=await Recompesa.obtenerganador(usuarioObjeto);
+    if(ganador.res){
+      setmensaje(ganador.mensaje)
+    }
+    
+    
   }
 
   const poblarobjetivos = async (objetivos: any[]) => {
@@ -55,7 +89,7 @@ const Recompesas: React.FC<any> = ({ navigation }:RecompensasProps) => {
         <Image
               style={styles.imagen}
               source={{uri:recompesasem?.imagen}}/>
-        <Text style={styles.texto}>{recompesasem?.des}</Text>
+        <Text style={styles.texto}>{mensaje===""? recompesasem?.des:mensaje}</Text>
       </View> 
       <Text style={styles.titulo}>Objetivos</Text>
        <ScrollView>
