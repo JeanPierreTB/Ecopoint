@@ -21,7 +21,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.jeanpierre27.ecopint2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -35,6 +40,11 @@
           "recordAudioAndroid": true
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "508752af-d98b-429f-be36-5b4bdd3b379c"
+      }
+    }
   }
 }

@@ -5,7 +5,14 @@ import google from '../assets/google.png'
 import ios from '../assets/ios.png'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../Types/types';
-import Usuario from '../Clases/Usuario'
+import Usuario from '../Clases/Usuario';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+WebBrowser.maybeCompleteAuthSession();
+
 
 type RegistrateProps = {
     navigation: StackNavigationProp<RootStackParamList, 'registrarte'>;
@@ -17,6 +24,48 @@ export default function Registrate({ navigation }: RegistrateProps) {
   const [Correo,setCorreo]=useState('');
   const [Contra,setContra]=useState('');
   const [NTelefono,setNTelefono]=useState('');
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: "74457487730-a5mueg90o0hkbf54m90kspn6tu1kg2c6.apps.googleusercontent.com"
+  });
+
+  React.useEffect(() => {
+    handleSignInWithGoogle();
+  }, [response]);
+
+  async function handleSignInWithGoogle() {
+    const user = await getLocalUser();
+    console.log("info del user:" + (user?.email || 'Usuario no encontrado'));
+    if (response?.type === "success") {
+      const userInfoResponse = await getUserInfo(response.authentication?.accessToken);
+      /*setUserInfo(userInfoResponse);
+      // Enviar información del usuario al servidor
+      console.log("Informacion a "+userInfoResponse.password)
+      sendUserDataToServer(userInfoResponse.email, userInfoResponse.password);*/
+    }
+  }
+
+  const getLocalUser = async () => {
+    const data = await AsyncStorage.getItem('@user');
+    if (!data) return null;
+    return JSON.parse(data);
+  }
+
+  const getUserInfo = async (token:any) => {
+    if (!token) return;
+    try {
+      const response = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const user = await response.json();
+      console.log("Respuesta de la API de Google:", user); // Imprimir la respuesta completa
+      await AsyncStorage.setItem('@user', JSON.stringify(user));
+      return user;
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
 
   const handleclik=()=>{
@@ -72,10 +121,19 @@ export default function Registrate({ navigation }: RegistrateProps) {
                 style={styles.apple}
                 source={ios}
             />
-            <Image
-                style={styles.google}
-                source={google}
-            />
+            <TouchableOpacity
+                disabled={!request}
+                onPress={() => {
+                  promptAsync();
+                }}
+            
+            >
+                <Image
+                    style={styles.google}
+                    source={google}
+                />
+            </TouchableOpacity>
+            
             <Image
                 style={styles.facebook}
                 source={facebook}

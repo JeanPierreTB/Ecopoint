@@ -1,6 +1,6 @@
 // Principal.tsx
 import React, { useState } from "react";
-import * as Location from "expo-location";
+
 import {
   View,
   Image,
@@ -23,141 +23,11 @@ type PrincipalProps = {
 };
 
 export default function Principal({ navigation }: PrincipalProps) {
-  const [origin, setorigin] = useState({
-    latitude: -12.0464,
-    longitude: -77.03,
-  });
-
-  const [puntosrec, setpuntosrec] = useState<any[]>([]);
-  const [puntosar, setpuntosar] = useState<any[]>([]);
-  const [datos,setdatos]=useState<any>(null);
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const allpoints = await PuntodeReciclaje.visualizarpuntos();
-        setpuntosrec(allpoints);
-      } catch (error) {
-        console.log("Ocurrió un error ", error);
-      }
-    };
-
-    getlocationpermission();
-    fetchData();
-    getpoints();
-    datosusuario();
-  }, []);
-
-  async function getpoints() {
-    try {
-      const puntosrealizar = await PuntodeReciclaje.obtenerpuntosarelizar();
-      console.log("No soy de la clase", puntosrealizar[0].latitud);
-      setpuntosar(puntosrealizar);
-    } catch (e) {
-      console.log("Ocurrio un error ", e);
-    }
-  }
-
-  async function getlocationpermission() {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      alert("Permiso denegado");
-      return;
-    }
-    let location = await Location.getCurrentPositionAsync({});
-    const current = {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    };
-
-    setorigin(current);
-  }
-
-  const handlepunto = async (punto: PuntodeReciclaje) => {
-    try {
-      await AsyncStorage.setItem("punto", JSON.stringify(punto));
-      navigation.navigate("Preciclaje");
-    } catch (error) {
-      console.error("Error al almacenar el punto:", error);
-    }
-  };
-
-
-  const datosusuario=async()=>{
-    try{
-      const usuario = await AsyncStorage.getItem('usuario');
-      const usuarioObjeto = usuario? JSON.parse(usuario):null;
-      const usuario1=await Usuario.datosusuario(usuarioObjeto);
-      setdatos(usuario1);
-    }catch(e){
-      console.error('Ocurrio un error',e)
-    }
-  }
+  
 
   return (
     <View style={styles.container}>
-      <View style={styles.principal1}>
-        <View>
-          <Text style={styles.titulo}>Bienvenido!</Text>
-          <TextInput style={styles.input} placeholder="Ubicacion Actual" />
-        </View>
-        <TouchableOpacity onPress={() => navigation.navigate("perfil")}>
-          <Image
-            style={styles.imagen}
-            source={{
-              uri: datos?.foto,
-
-            }}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.principal2}>
-        <MapView
-          style={styles.mapStyle}
-          initialRegion={{
-            latitude: origin.latitude,
-            longitude: origin.longitude,
-            latitudeDelta: 0.003,
-            longitudeDelta: 0.003,
-          }}
-          mapType="standard"
-        >
-          <Marker coordinate={origin} />
-
-          {puntosrec.map((punto) => (
-            <Marker
-              key={punto.id}
-              coordinate={{
-                latitude: punto.latitud,
-                longitude: punto.longitud,
-              }}
-              title={punto.lugar}
-              onPress={() => handlepunto(punto)}
-            >
-              <Image
-                source={{
-                  uri: "https://cdn-icons-png.flaticon.com/512/9830/9830813.png",
-                }}
-                style={{ width: 30, height: 30 }}
-              />
-            </Marker>
-          ))}
-
-          {puntosar.map((punto) => (
-            <MapViewDirections
-              key={punto.id}
-              origin={origin}
-              destination={{
-                latitude: punto.latitud,
-                longitude: punto.longitud,
-              }}
-              apikey="AIzaSyAw5ap8PEu1JO6Ia1k1frTPktbdTDGuuhk"
-              strokeWidth={5}
-              strokeColor="green"
-            />
-          ))}
-        </MapView>
-      </View>
+      <Text>Hola</Text>
     </View>
   );
 }
