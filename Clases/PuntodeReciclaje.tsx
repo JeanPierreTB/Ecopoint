@@ -19,15 +19,15 @@ class PuntodeReciclaje{
     private latitud:number;
     private longitud:number;
     private lugar:string;
-    private puntos:number;
     private id:number;
+    private tipo:string;
 
 
-    constructor(id:number=0,latitud:number,longitud:number,lugar:string,puntos:number){
+    constructor(id:number=0,latitud:number,longitud:number,lugar:string,tipo:string){
         this.latitud=latitud;
         this.longitud=longitud;
         this.lugar=lugar;
-        this.puntos=puntos;
+        this.tipo=tipo;
         this.id=id;
     }
 
@@ -90,9 +90,18 @@ class PuntodeReciclaje{
         }
       }
 
-      static async obtenerpuntosarelizar(): Promise<any[]> {
+      static async obtenerpuntosarelizar(usuario:number): Promise<any[]> {
         try {
-          const response = await fetch('http://192.168.0.179:3001/obtener-punto-realizar');
+          console.log("esto es de la clase"+usuario);
+          const response = await fetch('http://192.168.0.179:3001/obtener-punto-realizar', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+        },
+            body: JSON.stringify({
+                usuario:usuario
+            }),
+            })
           const data = await response.json();
       
           return data.puntos || []; // Devolver los puntos o un array vacío si no hay puntos
@@ -134,7 +143,7 @@ class PuntodeReciclaje{
         }
     }
 
-    async puntorealizadoqr(lugarseleccionado:string,id:number):Promise<any>{
+    async puntorealizadoqr(lugarseleccionado:string,cantidad:number,id:number):Promise<any>{
       try{
         const response=await fetch('http://192.168.0.179:3001/punto-cancelado-qr',{
           method: 'POST',
@@ -146,7 +155,8 @@ class PuntodeReciclaje{
               latitud:this.latitud,
               longitud:this.longitud,
               lugar:this.lugar,
-              puntos:this.puntos,
+              tipo:this.tipo,
+              cantidad:cantidad,
               id:id
           }),
         })
@@ -167,8 +177,8 @@ class PuntodeReciclaje{
         return this.lugar
     }
 
-    getpunto():number{
-        return this.puntos
+    gettipo():string{
+        return this.tipo
     }
 
     getid():number{

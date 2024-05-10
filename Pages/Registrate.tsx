@@ -60,29 +60,61 @@ export default function Registrate({ navigation }: RegistrateProps) {
 
       const user = await response.json();
       console.log("Respuesta de la API de Google:", user); // Imprimir la respuesta completa
-      await AsyncStorage.setItem('@user', JSON.stringify(user));
-      return user;
+      
+      almacenarusuario(user);
     } catch (e) {
       console.log(e);
     }
   }
 
-
-  const handleclik=()=>{
-    const campos=[DNI,Correo,Contra,NTelefono];
-    if(campos.some(campo=>!campo)){
-        Alert.alert('Error',"Completa los campos")
+  const almacenarusuario=async(user:any)=>{
+    const usuario=new Usuario(user.email,"",null,null);
+    const respuesta=await usuario.verifiyaccount();
+    if(respuesta){
+        usuario.islogin(navigation);
+    }else{
+        usuario.register(navigation);
+        usuario.islogin(navigation);
     }
     
+  }
+
+
+  const handleclik=async ()=>{
+    const dniRegex = /^\d{8}$/;
+    const emailRegex = /\S+@\S+\.\S+/;
+    const passwordRegex = /.{8,}/;
+    const phoneRegex = /^\d{9}$/;
+
+    // Verificar si algún campo está vacío
+    if (!DNI || !Correo || !Contra || !NTelefono) {
+        Alert.alert('Error', 'Completa todos los campos');
+    } else if (!dniRegex.test(DNI) || !emailRegex.test(Correo) || !passwordRegex.test(Contra) || !phoneRegex.test(NTelefono)) {
+        Alert.alert('Error', 'Completa los campos correctamente');
+    }   
     else{
         console.log(NTelefono);
         const usuario=new Usuario(Correo,Contra,parseInt(DNI),parseInt(NTelefono));
-        usuario.register(navigation);
-    
-        setDNI('');
-        setCorreo('');
-        setContra('');
-        setNTelefono('');
+        const respuesta=await usuario.verifiyaccount();
+        if(!respuesta){
+            const response=await usuario.register(navigation);
+            setDNI('');
+            setCorreo('');
+            setContra('');
+            setNTelefono('');
+            console.log(response);
+            if(!response){
+                navigation.navigate('sesion');
+            }
+
+        }else{
+            Alert.alert('Error','El usuario se encuentra registrado');
+            setDNI('');
+            setCorreo('');
+            setContra('');
+            setNTelefono('');
+        }
+        
     }
     
 
@@ -116,30 +148,22 @@ export default function Registrate({ navigation }: RegistrateProps) {
 
         <Text style={styles.textoinicio}>Inicia sesion con</Text>
         
-        <View style={styles.sesion2}>
-            <Image
-                style={styles.apple}
-                source={ios}
-            />
-            <TouchableOpacity
-                disabled={!request}
-                onPress={() => {
-                  promptAsync();
-                }}
-            
-            >
-                <Image
-                    style={styles.google}
-                    source={google}
-                />
-            </TouchableOpacity>
-            
-            <Image
-                style={styles.facebook}
-                source={facebook}
-            />
+        <View style={styles.sesionContainer}>
+    <TouchableOpacity
+        disabled={!request}
+        onPress={() => {
+            promptAsync();
+        }}
+        style={styles.sesionButton}
+    >
+        <Image
+            style={styles.sesionIcon}
+            source={google}
+        />
+        <Text style={styles.sesionText}>Registrate con Google</Text>
+    </TouchableOpacity>
+</View>
 
-        </View>
         
         <Text style={styles.textoinicio}>¿Ya tienes una cuenta? <Text style={styles.negrita} onPress={()=>navigation.navigate('sesion')}>Iniciar sesion</Text></Text>
     </View>
@@ -189,32 +213,34 @@ const styles=StyleSheet.create({
         fontSize:15,
         margin:5
     },
-    apple:{
-        
-        padding:10,
-        width:50,
-        height:50
-    },
-    google:{
-       
-        padding:10,
-        width:50,
-        height:50
-    },
-    facebook:{
-     
-        padding:10,
-        width:50,
-        height:50
-    },
-    sesion2:{
-        margin:5,
-        flexDirection:'row',
-        gap:20
-    },
     negrita:{
         fontWeight:"bold"
-    }
+    },
+    sesionContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
+    },
+    sesionButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+    },
+    sesionIcon: {
+        width: 30,
+        height: 30,
+        marginRight: 10,
+    },
+    sesionText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#000',
+    },
 
 
 })

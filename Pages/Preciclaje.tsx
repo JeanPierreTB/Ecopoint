@@ -35,7 +35,7 @@ export default function Principal({navigation}:PreciclajeProps) {
           punto.latitud || 0,
           punto.longitud || 0,
           punto.lugar || '',
-          punto.puntos || 0
+          punto.tipo || 0
         );
   
         setpunto(nuevoPunto);
@@ -60,6 +60,7 @@ export default function Principal({navigation}:PreciclajeProps) {
     
     
   }
+  
   return (
     <View style={styles.container}>
         <Text style={styles.titulo}>Punto de reciclaje</Text>
@@ -69,8 +70,10 @@ export default function Principal({navigation}:PreciclajeProps) {
                 <TextInput style={styles.input} value={punto?.getlugar()} editable={false}/>
             </View>
             <View>
-                <Text style={styles.texto}>Puntos</Text>
-                <TextInput style={styles.input} value={punto?.getpunto().toString()} editable={false}/>
+                <Text style={styles.texto}>Tipo</Text>
+                <TextInput style={styles.input} value={String(punto?.gettipo())} editable={false}/>
+
+
             </View>
 
         </View>

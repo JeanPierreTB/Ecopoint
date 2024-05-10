@@ -59,12 +59,15 @@ function Perfil({ navigation }: PerfilProps) {
         }}
       />
       <Icon style={styles.icon} name="bell" size={30} color='green' onPress={()=>navigation.navigate("notificaciones")} />
-      <Image
-        style={styles.imagen2}
-        source={{
-          uri: datos?.foto,
-        }}
-      />
+      {datos && datos.foto && (
+            <Image
+              style={styles.imagen2}
+              source={{
+                uri: datos.foto
+              }}
+            />
+          )}
+
       
       <Text style={styles.texto}>{datos?.nombre}</Text>
       
@@ -112,7 +115,6 @@ function Perfil({ navigation }: PerfilProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 40,
     alignItems: "center",
   },
   imagen: {

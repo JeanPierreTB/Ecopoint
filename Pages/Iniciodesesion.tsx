@@ -9,6 +9,13 @@ import { RootStackParamList } from '../Types/types';
 import Usuario from "../Clases/Usuario";
 import { objetivos } from '../data/Objetivos'
 import Objetivo from '../Clases/Objetivo'
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
+WebBrowser.maybeCompleteAuthSession();
 
 type IniciodesesionProps = {
     navigation: StackNavigationProp<RootStackParamList, 'sesion'>; 
@@ -17,11 +24,11 @@ type IniciodesesionProps = {
 const Iniciodesesion: React.FC<IniciodesesionProps> = ({ navigation }) => {
   const [email,setemail]=useState('');
   const [password,setpassword]=useState('');
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: "74457487730-a5mueg90o0hkbf54m90kspn6tu1kg2c6.apps.googleusercontent.com"
+  });
 
-
-  useEffect(()=>{
-    //poblarobjetivos();
-  },[])
+ 
 
   const poblarobjetivos=async ()=>{
     
@@ -34,6 +41,63 @@ const Iniciodesesion: React.FC<IniciodesesionProps> = ({ navigation }) => {
     }
   }
   }
+
+  React.useEffect(() => {
+    handleSignInWithGoogle();
+  }, [response]);
+
+  async function handleSignInWithGoogle() {
+    const user = await getLocalUser();
+    console.log("info del user:" + (user?.email || 'Usuario no encontrado'));
+    if (response?.type === "success") {
+      const userInfoResponse = await getUserInfo(response.authentication?.accessToken);
+      /*setUserInfo(userInfoResponse);
+      // Enviar información del usuario al servidor
+      console.log("Informacion a "+userInfoResponse.password)
+      sendUserDataToServer(userInfoResponse.email, userInfoResponse.password);*/
+    }
+  }
+
+  const getLocalUser = async () => {
+    const data = await AsyncStorage.getItem('@user');
+    if (!data) return null;
+    return JSON.parse(data);
+  }
+
+  const getUserInfo = async (token:any) => {
+    if (!token) return;
+    try {
+      const response = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const user = await response.json();
+      console.log("Respuesta de la API de Google:", user);
+      almacenarusuario(user);
+      
+  
+      await AsyncStorage.setItem('@user', JSON.stringify(user));
+      return user;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const almacenarusuario=async(user:any)=>{
+    const usuario=new Usuario(user.email,"",null,null);
+    const respuesta=await usuario.verifiyaccount();
+    if(respuesta){
+        console.log("Deberia entrar aqui");
+        usuario.islogin(navigation);
+    }else{
+        console.log("No deberia entrar aqui");
+        usuario.register(navigation);
+        usuario.islogin(navigation);
+    }
+    
+  }
+
 
   const handleclik = () => {
     const campos=[email,password];
@@ -72,21 +136,22 @@ const Iniciodesesion: React.FC<IniciodesesionProps> = ({ navigation }) => {
             
         <Text style={styles.textoinicio}>Inicia sesion con</Text>
         
-        <View style={styles.sesion2}>
-            <Image
-                style={styles.apple}
-                source={ios}
-            />
-            <Image
-                style={styles.google}
-                source={google}
-            />
-            <Image
-                style={styles.facebook}
-                source={facebook}
-            />
+        <View style={styles.sesionContainer}>
+    <TouchableOpacity
+        disabled={!request}
+        onPress={() => {
+            promptAsync();
+        }}
+        style={styles.sesionButton}
+    >
+        <Image
+            style={styles.sesionIcon}
+            source={google}
+        />
+        <Text style={styles.sesionText}>Iniciar sesión con Google</Text>
+    </TouchableOpacity>
+</View>
 
-        </View>
         
         <Text style={styles.textoinicio}>¿No tiene una cuenta? <Text style={styles.negrita} onPress={()=>navigation.navigate('registrarte')}>Registrate</Text></Text>
         
@@ -153,29 +218,31 @@ const styles=StyleSheet.create({
         fontSize:15,
         marginTop:15
     },
-    apple:{
-        
-        padding:10,
-        width:50,
-        height:50
+    sesionContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
     },
-    google:{
-       
-        padding:10,
-        width:50,
-        height:50
+    sesionButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
     },
-    facebook:{
-     
-        padding:10,
-        width:50,
-        height:50
+    sesionIcon: {
+        width: 30,
+        height: 30,
+        marginRight: 10,
     },
-    sesion2:{
-        marginTop:5,
-        flexDirection:'row',
-        gap:20
-    }
+    sesionText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#000',
+    },
     
    
 });

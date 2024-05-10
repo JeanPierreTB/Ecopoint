@@ -1,43 +1,122 @@
 export const puntosdereciclaje=[
-    { id: 41, latitude: -12.046, longitude: -77.031, title: 'Punto de reciclaje en Parque de la Reserva',puntos:10 },
-    { id: 42, latitude: -12.075, longitude: -77.046, title: 'Punto de reciclaje en Parque Kennedy',puntos:29 },
-    { id: 43, latitude: -12.093, longitude: -77.045, title: 'Punto de reciclaje en Circuito Mágico del Agua',puntos:30 },
-    { id: 44, latitude: -12.069, longitude: -77.077, title: 'Punto de reciclaje en Jockey Plaza',puntos:50 },
-    { id: 45, latitude: -12.117, longitude: -77.030, title: 'Punto de reciclaje en Larcomar',puntos:80},
-    { id: 46, latitude: -12.097, longitude: -77.036, title: 'Punto de reciclaje en Plaza de Armas',puntos:29 },
-    /*{ id: 47, latitude: -12.137, longitude: -77.030, title: 'Punto de reciclaje en Parque de las Leyendas' },
-    { id: 48, latitude: -12.094, longitude: -77.046, title: 'Punto de reciclaje en Huaca Pucllana' },
-    { id: 49, latitude: -12.070, longitude: -77.075, title: 'Punto de reciclaje en Estadio Nacional' },
-    { id: 50, latitude: -12.118, longitude: -77.030, title: 'Punto de reciclaje en Plaza San Miguel' },
-    { id: 51, latitude: -12.103, longitude: -77.031, title: 'Punto de reciclaje en Miraflores Central' },
-    { id: 52, latitude: -12.089, longitude: -77.042, title: 'Punto de reciclaje en Parque del Amor' },
-    { id: 53, latitude: -12.120, longitude: -77.026, title: 'Punto de reciclaje en Plaza Salaverry' },
-    { id: 54, latitude: -12.080, longitude: -77.035, title: 'Punto de reciclaje en Barranco Artístico' },
-    { id: 55, latitude: -12.065, longitude: -77.077, title: 'Punto de reciclaje en Universidad Nacional Mayor de San Marcos' },
-    { id: 56, latitude: -12.138, longitude: -77.024, title: 'Punto de reciclaje en Parque de las Américas' },
-    { id: 57, latitude: -12.099, longitude: -77.065, title: 'Punto de reciclaje en Parque de la Exposición' },
-    { id: 58, latitude: -12.056, longitude: -77.034, title: 'Punto de reciclaje en Malecón de la Reserva' },
-    { id: 59, latitude: -12.086, longitude: -77.037, title: 'Punto de reciclaje en Centro Histórico de Lima' },
-    { id: 60, latitude: -12.075, longitude: -77.055, title: 'Punto de reciclaje en Parque Reducto' },
-    { id: 61, latitude: -12.110, longitude: -77.047, title: 'Punto de reciclaje en Parque de la Imaginación' },
-    { id: 62, latitude: -12.104, longitude: -77.038, title: 'Punto de reciclaje en Centro Comercial LarcoMar' },
-    { id: 63, latitude: -12.076, longitude: -77.062, title: 'Punto de reciclaje en Parque Raimondi' },
-    { id: 64, latitude: -12.085, longitude: -77.059, title: 'Punto de reciclaje en Museo de Arte Contemporáneo' },
-    { id: 65, latitude: -12.108, longitude: -77.049, title: 'Punto de reciclaje en Parque El Olivar' },
-    { id: 66, latitude: -12.120, longitude: -77.040, title: 'Punto de reciclaje en Plaza Vea San Isidro' },
-    { id: 67, latitude: -12.059, longitude: -77.064, title: 'Punto de reciclaje en Playa Costa Verde' },
-    { id: 68, latitude: -12.098, longitude: -77.033, title: 'Punto de reciclaje en Biblioteca Nacional del Perú' },
-    { id: 69, latitude: -12.121, longitude: -77.035, title: 'Punto de reciclaje en Parque de la Muralla' },
-    { id: 70, latitude: -12.103, longitude: -77.060, title: 'Punto de reciclaje en Centro Empresarial Real' },
-    { id: 71, latitude: -12.071, longitude: -77.042, title: 'Punto de reciclaje en Parque de la Exposición' },
-    { id: 72, latitude: -12.116, longitude: -77.026, title: 'Punto de reciclaje en Centro Comercial Plaza Lima Sur' },
-    { id: 73, latitude: -12.096, longitude: -77.058, title: 'Punto de reciclaje en Parque Washington' },
-    { id: 74, latitude: -12.065, longitude: -77.046, title: 'Punto de reciclaje en Estadio Monumental' },
-    { id: 75, latitude: -12.118, longitude: -77.045, title: 'Punto de reciclaje en Plaza Norte' },
-    { id: 76, latitude: -12.089, longitude: -77.056, title: 'Punto de reciclaje en Parque de las Palomas' },
-    { id: 77, latitude: -12.103, longitude: -77.068, title: 'Punto de reciclaje en Museo Larco' },
-    { id: 78, latitude: -12.081, longitude: -77.049, title: 'Punto de reciclaje en Parque de la Residencia' },
-    { id: 79, latitude: -12.108, longitude: -77.053, title: 'Punto de reciclaje en Universidad de Lima' },
-    { id: 80, latitude: -12.076, longitude: -77.043, title: 'Punto de reciclaje en Parque de la Amistad' }*/
-  ]
-
+  {
+    "latitud": -12.051158,
+    "longitud": -77.027218,
+    "lugar": "Parque Kennedy, Miraflores",
+    "tipo": "Papel"
+  },
+  {
+    "latitud": -12.117121,
+    "longitud": -77.038553,
+    "lugar": "Parque de la Exposición, Lima Centro",
+    "tipo": "Plástico"
+  },
+  {
+    "latitud": -12.044482,
+    "longitud": -77.028305,
+    "lugar": "Parque Reducto No. 2, Miraflores",
+    "tipo": "Metal"
+  },
+  {
+    "latitud": -12.099812,
+    "longitud": -77.032889,
+    "lugar": "Centro Comercial Larcomar, Miraflores",
+    "tipo": "Baterias"
+  },
+  {
+    "latitud": -12.119839,
+    "longitud": -77.027894,
+    "lugar": "Centro Histórico de Lima",
+    "tipo": "Ropa"
+  },
+  {
+    "latitud": -12.052207,
+    "longitud": -77.088565,
+    "lugar": "Centro Comercial Plaza San Miguel, San Miguel",
+    "tipo": "Papel"
+  },
+  {
+    "latitud": -12.121094,
+    "longitud": -77.026738,
+    "lugar": "Circuito Mágico del Agua, Lima",
+    "tipo": "Plástico"
+  },
+  {
+    "latitud": -12.081735,
+    "longitud": -77.036051,
+    "lugar": "Centro Comercial Real Plaza Salaverry, Jesús María",
+    "tipo": "Metal"
+  },
+  {
+    "latitud": -12.055757,
+    "longitud": -77.086838,
+    "lugar": "Parque de los Próceres, San Isidro",
+    "tipo": "Baterias"
+  },
+  {
+    "latitud": -12.096239,
+    "longitud": -77.036233,
+    "lugar": "Centro Comercial Plaza Vea Risso, Lince",
+    "tipo": "Ropa"
+  },
+  {
+    "latitud": -12.049383,
+    "longitud": -77.025953,
+    "lugar": "Parque Central de Miraflores",
+    "tipo": "Papel"
+  },
+  {
+    "latitud": -12.120661,
+    "longitud": -77.026955,
+    "lugar": "Centro Comercial Plaza San Miguel, San Miguel",
+    "tipo": "Plástico"
+  },
+  {
+    "latitud": -12.066122,
+    "longitud": -77.067213,
+    "lugar": "Parque de la Reserva (Circuito Mágico del Agua), Lima",
+    "tipo": "Metal"
+  },
+  {
+    "latitud": -12.111164,
+    "longitud": -77.031245,
+    "lugar": "Centro Comercial Open Plaza Angamos, Surquillo",
+    "tipo": "Baterias"
+  },
+  {
+    "latitud": -12.062679,
+    "longitud": -77.036447,
+    "lugar": "Centro Comercial Real Plaza Primavera, Surco",
+    "tipo": "Ropa"
+  },
+  {
+    "latitud": -12.045911,
+    "longitud": -77.070303,
+    "lugar": "Parque Mariscal Castilla, Lince",
+    "tipo": "Papel"
+  },
+  {
+    "latitud": -12.116398,
+    "longitud": -77.043188,
+    "lugar": "Centro Comercial Real Plaza Centro Cívico, Lima",
+    "tipo": "Plástico"
+  },
+  {
+    "latitud": -12.076355,
+    "longitud": -77.061936,
+    "lugar": "Parque El Olivar, San Isidro",
+    "tipo": "Metal"
+  },
+  {
+    "latitud": -12.101065,
+    "longitud": -77.029111,
+    "lugar": "Centro Comercial Real Plaza Salaverry, Jesús María",
+    "tipo": "Baterias"
+  },
+  {
+    "latitud": -12.059444,
+    "longitud": -77.033648,
+    "lugar": "Parque de la Amistad, Surco",
+    "tipo": "Ropa"
+  }
+]

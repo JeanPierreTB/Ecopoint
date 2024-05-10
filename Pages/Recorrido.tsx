@@ -5,6 +5,7 @@ import { RecorridoProps } from '../Types/types';
 import PuntodeReciclaje from '../Clases/PuntodeReciclaje';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from "@react-navigation/native";
+import Usuario from '../Clases/Usuario';
 
 
 
@@ -12,18 +13,22 @@ const Recorrido: React.FC<any> = ({ navigation }: RecorridoProps) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [transacciones, setTransacciones] = useState<any[] | null>([]);
   const [selectedPuntaje, setSelectedPuntaje] = useState('');
+  const [cantidad,setcantidad]=useState('0');
   
   
 
   const handlePickerChange = (itemValue: string) => {
     const selectedTransaccion = transacciones?.find((transaccion) => transaccion.lugar === itemValue);
     setSelectedOption(itemValue);
-    setSelectedPuntaje(selectedTransaccion?.puntos.toString() || '');
+    setSelectedPuntaje(selectedTransaccion?.tipo || '');
   };
 
   const recuperarTransaccion = async () => {
     try {
-      const puntos = await PuntodeReciclaje.obtenerpuntosarelizar();
+      const usuario = await AsyncStorage.getItem('usuario');
+        const usuarioObjeto = usuario ? JSON.parse(usuario) : null;
+        const usuarioData = await Usuario.datosusuario(usuarioObjeto);
+      const puntos = await PuntodeReciclaje.obtenerpuntosarelizar(usuarioData.id);
       puntos ? setTransacciones(puntos) : null;
     } catch (e) {
       alert('Ocurrio un error');
@@ -60,9 +65,25 @@ const Recorrido: React.FC<any> = ({ navigation }: RecorridoProps) => {
   };
   
 
-  const gofoto=()=>{
-    AsyncStorage.setItem('puntoqr', JSON.stringify(selectedOption));
-    navigation.navigate("foto");
+  const gofoto = async () => {
+    try {
+      // Crear un objeto JSON con los valores
+      const dataToSave = {
+        puntoqr: selectedOption,
+        selectedPuntaje: selectedPuntaje,
+        cantidad: cantidad
+      };
+
+      // Convertir el objeto a una cadena JSON
+      const jsonData = JSON.stringify(dataToSave);
+
+      // Guardar la cadena JSON en AsyncStorage
+      await AsyncStorage.setItem('recorridoData', jsonData);
+      setcantidad('0');
+      navigation.navigate("foto");
+    } catch (error) {
+      console.error('Error al guardar en AsyncStorage:', error);
+    }
   }
   
   
@@ -98,9 +119,16 @@ const Recorrido: React.FC<any> = ({ navigation }: RecorridoProps) => {
         </View>
 
         <View>
-          <Text style={styles.des}>Puntos</Text>
+          <Text style={styles.des}>Tipo</Text>
           <TextInput value={selectedPuntaje} style={styles.input} />
         </View>
+        <View>
+        <Text style={styles.des}>Cantidad</Text>
+        
+         <TextInput style={styles.input} keyboardType="numeric" value={cantidad} onChange={(e)=>setcantidad(e.nativeEvent.text)}/>
+
+      </View> 
+
       </View>
 
       <View style={styles.container2}>

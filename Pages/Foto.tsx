@@ -34,23 +34,29 @@ export default function Foto({ navigation }: FotoProps) {
 
  
 const tomarfoto = async () => {
-    if (cameraRef) {
-        try {
-            const data = await cameraRef.current?.takePictureAsync();
-            console.log(data);
-            setimagen(data ? data.uri : null); // Usar operador ternario para verificar si data está definido
-            const usuario = await AsyncStorage.getItem('usuario');
-            const usuarioObjeto = usuario ? JSON.parse(usuario) : null;
-            
-            if (data) { // Verificar si data está definido antes de usarlo
-                Usuario.actualizarfoto(usuarioObjeto, data.uri);
-                alert('Foto actualizada');
-                navigation.navigate("cuenta")
-            }
-        } catch(e) {
-            console.log(e);
-        }
-    }
+  if (cameraRef) {
+      try {
+          const data = await cameraRef.current?.takePictureAsync();
+          console.log(data);
+          if (data) {
+              // Guardar la imagen en la biblioteca de medios
+              const asset = await MediaLibrary.createAssetAsync(data.uri);
+              // Obtener la URI de la imagen guardada
+              const assetURI = asset.uri;
+              setimagen(assetURI); // Usar la URI de la imagen guardada
+              const usuario = await AsyncStorage.getItem('usuario');
+              const usuarioObjeto = usuario ? JSON.parse(usuario) : null;
+              if (assetURI) {
+                  // Actualizar la foto del usuario con la URI de la imagen guardada
+                  Usuario.actualizarfoto(usuarioObjeto, assetURI);
+                  alert('Foto actualizada');
+                  navigation.navigate("cuenta")
+              }
+          }
+      } catch(e) {
+          console.log(e);
+      }
+  }
 };
 
 
@@ -64,12 +70,12 @@ const tomarfoto = async () => {
       alert(`Código ${type} escaneado: ${data}`);
       setEscaneoRealizado(true);
       const parsedData=JSON.parse(data);
-      const lugarseleccionado = await AsyncStorage.getItem('puntoqr');
+      const lugarseleccionado = await AsyncStorage.getItem('recorridoData');
       const lugarseleccionadodata = lugarseleccionado? JSON.parse(lugarseleccionado):null;
       const usuario = await AsyncStorage.getItem('usuario');
       const usuarioObjeto = usuario? JSON.parse(usuario):null;
-      const punto=new PuntodeReciclaje(undefined,parsedData.latitud,parsedData.longitud,parsedData.lugar,parsedData.puntos);
-      const res=await punto.puntorealizadoqr(lugarseleccionadodata,usuarioObjeto);
+      const punto=new PuntodeReciclaje(undefined,parsedData.latitud,parsedData.longitud,parsedData.lugar,parsedData.tipo);
+      const res=await punto.puntorealizadoqr(lugarseleccionadodata.puntoqr,lugarseleccionadodata.cantidad,usuarioObjeto);
       alert(res.mensaje);
 
       navigation.navigate("principal")

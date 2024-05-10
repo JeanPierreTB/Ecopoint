@@ -98,13 +98,14 @@ const Comunidad: React.FC<any> = ({ navigation }: ComunidadProps) => {
     <View style={styles.container2}>
       <View style={styles.comunidad}>
         <Text style={styles.titulo}>Comunidad</Text>
-        <Image
-          style={styles.imagen}
-          source={{
-            uri: datos?.foto,
-
-          }}
-        />
+        {datos && datos.foto && (
+            <Image
+              style={styles.imagen}
+              source={{
+                uri: datos.foto
+              }}
+            />
+          )}
       </View>
       
         <ScrollView style={styles.container4}>
@@ -169,7 +170,7 @@ const Comunidad: React.FC<any> = ({ navigation }: ComunidadProps) => {
 const styles = StyleSheet.create({
   container2: {
     flex: 1,
-    marginTop: 40,
+    marginTop:5,
     justifyContent: "space-between",
   },
   titulo: {

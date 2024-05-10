@@ -20,7 +20,12 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "config": {
+          "googleMaps": {
+            "apiKey": "AIzaSyAw5ap8PEu1JO6Ia1k1frTPktbdTDGuuhk"
+          }
+        } 
       },
       "permissions": [
         "android.permission.CAMERA",

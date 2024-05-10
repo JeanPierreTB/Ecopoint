@@ -15,9 +15,12 @@ const OContraseña: React.FC<OContraProps> = ({ navigation }) => {
   const [password,setpassword]=useState('');
 
   const handleclik = () => {
-    const campos=[email,password];
-    if(campos.some(campo=>!campo)){
-        Alert.alert('Error',"Completa los campos")
+    const passwordRegex = /.{8,}/;
+
+    if (!password && !email) {
+        Alert.alert('Error', 'Completa todos los campos');
+    } else if (!passwordRegex.test(password)) {
+        Alert.alert('Error', 'La contraseña debe tener al menos 8 caracteres');
     }
     else{
         const usuario=new Usuario(email,password);

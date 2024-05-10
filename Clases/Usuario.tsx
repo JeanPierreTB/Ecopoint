@@ -22,40 +22,59 @@ class Usuario{
     }
 
     async islogin(navigation: any): Promise<void> {
-        try {
-          const response = await fetch("http://192.168.0.179:3001/verificar-usuario", {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              nombre: this.nombre,
-              contrasena: this.contraseña,
-            }),
-          });
-      
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-      
-          const data = await response.json();
-      
-          if (data.res) {
-            // Almacena información de sesión segura en AsyncStorage
-            console.log(data.usuario.id);
-            const userData=data.usuario.id;
-            //const userData = { nombre: this.nombre,contraseña:this.contraseña };
-            AsyncStorage.setItem('usuario', JSON.stringify(userData));
-            navigation.navigate('principal');
-          } else {
-            Alert.alert('Error', data.mensaje);
-          }
-        } catch (error) {
-          console.error('Error:', error);
-          // Manejo de errores
-          Alert.alert('Error', 'Ocurrió un error al procesar la solicitud.');
+      try {
+        const response = await fetch("http://192.168.0.179:3001/verificar-usuario", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            nombre: this.nombre,
+            contrasena: this.contraseña,
+          }),
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
+    
+        const data = await response.json();
+    
+        if (data.res) {
+          // Almacena información de sesión segura en AsyncStorage
+          console.log(data.usuario.id);
+          const userData=data.usuario.id;
+          //const userData = { nombre: this.nombre,contraseña:this.contraseña };
+          AsyncStorage.setItem('usuario', JSON.stringify(userData));
+          navigation.navigate('principal');
+        } else {
+          Alert.alert('Error', data.mensaje);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        // Manejo de errores
+        Alert.alert('Error', 'Ocurrió un error al procesar la solicitud.');
       }
+    }
+
+    async verifiyaccount():Promise<boolean>{
+      const response = await fetch("http://192.168.0.179:3001/usuario-existente", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            nombre: this.nombre
+          }),
+        });
+
+        const data=await response.json();
+        return data.res;
+        
+        
+
+        
+    }
       
 
 
@@ -84,7 +103,7 @@ class Usuario{
         .catch(e=>console.error(`Ocurrio un error ${e}`))
     }
 
-    async register(navigation:any):Promise<void>{
+    async register(navigation:any):Promise<boolean>{
         console.log(this.ntelefono);
         await fetch("http://192.168.0.179:3001/insertar-usuario", {
             method: 'POST',
@@ -102,15 +121,16 @@ class Usuario{
         .then(response=>response.json())
         .then(data=>{
             if(data.res){
-                navigation.navigate('sesion');
+                //navigation.navigate('sesion');
                 Alert.alert('Exito',data.mensaje);
             }
             else
                 Alert.alert('Error',data.mensaje)
+            return data.res;
         })
         .catch(e=>console.error("Ocurrio un error ",e))
         
-        
+        return false;
     }
 
     static async datosusuario(id:number):Promise<any>{
